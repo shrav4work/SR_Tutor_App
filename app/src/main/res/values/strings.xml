@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">Login Page</string>
+    <string name="abt_sr">Here you can find more About SR Tutorials</string>
+
+    <string-array name="subjects">
+        <item>English</item>
+        <item>Science</item>
+        <item>Social Science</item>
+        <item>Mathematics</item>
+        <item>Kannada</item>
+        <item>Hindi</item>
+    </string-array>
+</resources>

@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".login_pages.Tutor_Login"
+    android:orientation="vertical">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:background="@drawable/trphoto2"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="10dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="60dp"
+            android:paddingLeft="20dp"
+            android:text="Student Login"
+            android:textColor="@color/dark_blue"
+            android:textSize="34sp"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/student_user"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Username"
+            android:paddingTop="35dp"
+            android:inputType="textPersonName"
+            android:drawableStart="@drawable/user"
+            android:drawablePadding="10dp"
+            android:paddingStart="20dp"
+            android:textSize="20sp"/>
+
+        <EditText
+            android:id="@+id/student_pass"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Password"
+            android:paddingTop="35dp"
+            android:inputType="textPassword"
+            android:drawableStart="@drawable/password"
+            android:drawablePadding="10dp"
+            android:paddingStart="20dp"
+            android:textSize="20sp"/>
+
+        <TextView
+            android:id="@+id/forgot_password_student"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="onClick"
+            android:paddingRight="15dp"
+            android:paddingBottom="10dp"
+            android:text="Forgot Password?"
+            android:textAlignment="textEnd"
+            android:textColor="@color/dark_blue"
+            android:textFontWeight="500"
+            android:textSize="16sp" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingRight="20dp"
+            android:paddingLeft="20dp"
+            android:paddingBottom="30dp">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/login_student"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginBottom="10dp"
+                android:backgroundTint="@color/primary"
+                android:text="Login"
+                app:cornerRadius="15dp" />
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/abt_srtutor_std_login"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_below="@+id/about_sr"
+            android:layout_alignParentBottom="true"
+            android:layout_marginTop="38dp"
+            android:fontFamily="@font/trebuc"
+            android:text="About SR Tutorials"
+            android:textAlignment="center"
+            android:textColor="@color/dark_blue"
+            android:textSize="20dp"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
+
+
+
+</LinearLayout>

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".tutor_.student_list">
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_marginHorizontal="60dp"
+        android:layout_marginTop="40dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/student_id_text"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+
+        app:boxStrokeColor="@color/blue"
+        >
+        <AutoCompleteTextView
+            android:textSize="18sp"
+            android:gravity="center_horizontal"
+            android:layout_margin="10dp"
+            android:id="@+id/student_list_text"
+            android:layout_width="match_parent"
+            android:background="@null"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:fontFamily="@font/trebuc"
+            android:paddingVertical="15dp">
+
+        </AutoCompleteTextView>
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <ListView
+        android:id="@+id/student_list_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:layout_below="@id/student_id_text"></ListView>
+
+</RelativeLayout>
+

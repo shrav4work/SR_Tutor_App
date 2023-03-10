@@ -46,6 +46,8 @@ public class Student_Login extends AppCompatActivity {
 
     EditText student_username ;
     EditText student_password ;
+    String ip;
+
 
     TextView forgotPasswordStudent;
 
@@ -63,6 +65,8 @@ public class Student_Login extends AppCompatActivity {
         student_password = findViewById(R.id.student_pass);
         forgotPasswordStudent=findViewById(R.id.forgot_password_student);
         utilService = new UtilService();
+        ip =utilService.getIp();
+        Log.i("IP",ip);
 
         forgotPasswordStudent.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -111,7 +115,7 @@ public class Student_Login extends AppCompatActivity {
         Log.i("TAG1",params+"");
 
         final RequestQueue queue = Volley.newRequestQueue(Student_Login.this);
-        final String url = "http://192.168.0.108:3000/api/login/student";
+        final String url = "http://"+ip+":3000/api/login/student";
 
         queue.start();
         JsonObjectRequest jsObjRequest = new JsonObjectRequest(Request.Method.POST, url, new JSONObject(params), new Response.Listener<JSONObject>() {

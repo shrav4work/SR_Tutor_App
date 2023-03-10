@@ -20,4 +20,9 @@ public class UtilService {
     public void showSnackBar(View view, String msg){
         Snackbar.make(view,msg,Snackbar.LENGTH_LONG).show();
     }
+
+    public String getIp(){
+        String ip = "192.168.29.230";
+        return ip;
+    }
 }

@@ -71,7 +71,7 @@
                     android:layout_margin="10dp"
                     android:backgroundTint="@color/primary"
                     android:text="Skip"
-                    app:cornerRadius="15dp" />
+                    app:cornerRadius="15dp"/>
 
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>

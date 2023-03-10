@@ -41,37 +41,26 @@ import org.json.JSONObject;
 
 import java.util.HashMap;
 
-import javax.net.ssl.HostnameVerifier;
-import javax.net.ssl.HttpsURLConnection;
-import javax.net.ssl.SSLContext;
-import javax.net.ssl.SSLSession;
-import javax.net.ssl.TrustManager;
-import javax.net.ssl.X509TrustManager;
+public class Tutor_actual_geo_signin extends AppCompatActivity {
 
-public class tutor_geo_signin extends AppCompatActivity {
     private GoogleMap mMap;
     double calcDistance;
-    int flag=0;
     String ip;
 
     UtilService utilService;
     private static final int FINE_LOCATION_REQUEST_CODE = 1000;
     private FusedLocationProviderClient locationClient;
-    String passedEmail;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-        setContentView(R.layout.activity_geo_signin);
+        setContentView(R.layout.activity_tutor_actual_geo_signin);
 
         utilService = new UtilService();
         ip =utilService.getIp();
         Log.i("IP",ip);
-        passedEmail = getIntent().getStringExtra("passEmail");
-        Log.i("passedEmail",passedEmail);
-
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map_tutor_geosignin);
         mapFragment.getMapAsync(new OnMapReadyCallback() {
             @Override
             public void onMapReady(@NonNull GoogleMap googleMap) {
@@ -82,31 +71,21 @@ public class tutor_geo_signin extends AppCompatActivity {
         });
         prepareLocationServcies();
 
-        findViewById(R.id.set_home_location).setOnClickListener((new View.OnClickListener() {
+
+        findViewById(R.id.geo_signin_button_tutor).setOnClickListener((new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(flag==1){
-                    Intent intent = new Intent(tutor_geo_signin.this,tutor_home_screen.class);
+                if(calcDistance<31500){
+                    Intent intent = new Intent(Tutor_actual_geo_signin.this,tutor_home_screen.class);
                     startActivity(intent);
-                }else{
-                    Toast.makeText(tutor_geo_signin.this,"Home location not set properly.Please Try again..",Toast.LENGTH_SHORT).show();
                 }
-
+                else{
+                    Log.i("Location Fault","Location Not matched");
+                    Toast.makeText(Tutor_actual_geo_signin.this,"Invalid Location",Toast.LENGTH_SHORT).show();
+                }
             }
         }));
-
-
-        findViewById(R.id.skip).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                Intent intent = new Intent(tutor_geo_signin.this,tutor_home_screen.class);
-                startActivity(intent);
-            }
-        });
-
     }
-
     public void getLocationPermission(){
         ActivityCompat.requestPermissions(this,new String[] {android.Manifest.permission.ACCESS_FINE_LOCATION}, FINE_LOCATION_REQUEST_CODE);
     }
@@ -124,6 +103,7 @@ public class tutor_geo_signin extends AppCompatActivity {
         }
 
     }
+
     public void showCurrentLocation(){
         if(ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED){
             getLocationPermission();
@@ -142,16 +122,14 @@ public class tutor_geo_signin extends AppCompatActivity {
                         Log.i("TAG Longitude", location.getLongitude()+ "");
 
 
-                       // ------------------------------------------------------------------------------------------
+                        // ------------------------------------------------------------------------------------------
 
-                        final RequestQueue queue = Volley.newRequestQueue(tutor_geo_signin.this);
-                        final String url = "http://"+ip+":3000/api/home_loc_tutor";
+                        final RequestQueue queue = Volley.newRequestQueue(Tutor_actual_geo_signin.this);
+                        final String url = "http://"+ip+":3000/api/geo-signin";
 
 
                         HashMap<String,String> params =new HashMap<>();
-                        params.put("lat",String.valueOf(location.getLatitude()));
-                        params.put("lon",String.valueOf(location.getLongitude()));
-                        params.put("email",passedEmail);
+                        params.put("email","shrav4work@gmail.com");
 
                         Log.i("lat,lon",params+"");
 
@@ -166,10 +144,11 @@ public class tutor_geo_signin extends AppCompatActivity {
                                         try {
                                             if(response.getBoolean("success")) {
                                                 String message = response.getString("msg");
-//                                                Double latt =Double.parseDouble(response.getString("lat"));
-//                                                Double lonn =Double.parseDouble(response.getString("lon"));
+                                                Double latt =Double.parseDouble(response.getString("lat"));
+                                                Double lonn =Double.parseDouble(response.getString("lon"));
                                                 Log.i("locationret",message);
-                                                flag=1;
+                                                calcDistance  = distance(latt, lonn,location.getLatitude(),location.getLongitude());
+                                                Log.i("distance",calcDistance+"");
                                             }
                                         } catch (JSONException e) {
                                             Log.i("Error",e.getMessage()+"");
@@ -204,7 +183,7 @@ public class tutor_geo_signin extends AppCompatActivity {
                         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng,17.0f));
                     }
                     else {
-                        Toast.makeText(tutor_geo_signin.this,"Something went wrong, Please try agin",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Tutor_actual_geo_signin.this,"Something went wrong, Please try agin",Toast.LENGTH_SHORT).show();
                     }
                 }
             });
@@ -229,5 +208,4 @@ public class tutor_geo_signin extends AppCompatActivity {
 
         return dist; // output distance, in MILES
     }
-
 }

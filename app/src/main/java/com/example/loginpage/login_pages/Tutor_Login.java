@@ -4,7 +4,9 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -28,7 +30,9 @@ import com.android.volley.toolbox.Volley;
 import com.example.loginpage.R;
 import com.example.loginpage.UtilsService.UtilService;
 import com.example.loginpage.student_.student_home_screen;
+import com.example.loginpage.tutor_.Tutor_actual_geo_signin;
 import com.example.loginpage.tutor_.tutor_geo_signin;
+import com.example.loginpage.tutor_.tutor_home_screen;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -44,6 +48,9 @@ public class Tutor_Login extends AppCompatActivity {
     private EditText username;
     private EditText password;
 
+    SharedPreferences sp;
+    String ip;
+
     UtilService utilService;
     private String tutor_email, tutor_password;
 
@@ -58,6 +65,8 @@ public class Tutor_Login extends AppCompatActivity {
         username = findViewById(R.id.tutor_user);
         password = findViewById(R.id.tutor_pass);
         utilService = new UtilService();
+        ip =utilService.getIp();
+        Log.i("IP",ip);
 
         findViewById(R.id.login_tutor).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -86,6 +95,9 @@ public class Tutor_Login extends AppCompatActivity {
 
     }
     private void loginUser() {
+//        sp= getSharedPreferences("passEmail", Context.MODE_PRIVATE);
+//        SharedPreferences.Editor editor =sp.edit();
+
         HashMap<String,String> params =new HashMap<>();
         params.put("email",tutor_email);
         params.put("password",tutor_password);
@@ -93,7 +105,7 @@ public class Tutor_Login extends AppCompatActivity {
         Log.i("TAG1",params+"");
 
         final RequestQueue queue = Volley.newRequestQueue(Tutor_Login.this);
-        final String url = "http://192.168.0.108:3000/api/login/tutor";
+        final String url = "http://"+ip+":3000/api/login/tutor";
 
         queue.start();
         JsonObjectRequest jsObjRequest = new JsonObjectRequest(Request.Method.POST, url, new JSONObject(params), new Response.Listener<JSONObject>() {
@@ -103,7 +115,21 @@ public class Tutor_Login extends AppCompatActivity {
                     if(response.getBoolean("success")){
                         String token = response.getString("token");
                         Toast.makeText(Tutor_Login.this,token,Toast.LENGTH_SHORT).show();
-                        startActivity(new Intent(Tutor_Login.this, tutor_geo_signin.class));
+                        String lat = response.getString("lat");
+                        String lon = response.getString("lon");
+                        Log.i("Lat, Lon",lat+" "+lon);
+//                        editor.putString("email",response.getString("email"));
+//                        editor.commit();
+                        if(lat.isEmpty() && lon.isEmpty()){
+                            Intent intent = new Intent(Tutor_Login.this, tutor_geo_signin.class);
+                            intent.putExtra("passEmail",response.getString("email"));
+                            startActivity(intent);
+                        }
+                        else{
+                            Intent intent = new Intent(Tutor_Login.this, Tutor_actual_geo_signin.class);
+                            startActivity(intent);
+                        }
+
                     }
                     else{
                         Toast.makeText(Tutor_Login.this,"Invalid Username or password",Toast.LENGTH_SHORT).show();

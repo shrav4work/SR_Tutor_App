@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -37,6 +38,7 @@ public class Reset_Password extends AppCompatActivity {
 
     EditText email;
     UtilService utilService;
+    String ip;
     private String reset_email;
 
     @Override
@@ -46,6 +48,8 @@ public class Reset_Password extends AppCompatActivity {
 
 
         utilService = new UtilService();
+        ip =utilService.getIp();
+        Log.i("IP",ip);
         email = findViewById(R.id.email_for_reset);
         findViewById(R.id.send_reset_link).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -65,7 +69,7 @@ public class Reset_Password extends AppCompatActivity {
         params.put("email",reset_email);
 
         final RequestQueue queue = Volley.newRequestQueue(Reset_Password.this);
-        final String url = "http://192.168.0.108:3000/api/forgot-password";
+        final String url = "http://"+ip+":3000/api/forgot-password";
 
         queue.start();
         JsonObjectRequest jsObjRequest = new JsonObjectRequest(Request.Method.POST, url, new JSONObject(params), new Response.Listener<JSONObject>() {

@@ -75,7 +75,7 @@ public class Tutor_actual_geo_signin extends AppCompatActivity {
         findViewById(R.id.geo_signin_button_tutor).setOnClickListener((new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(calcDistance<31500){
+                if(calcDistance<20000){
                     Intent intent = new Intent(Tutor_actual_geo_signin.this,tutor_home_screen.class);
                     startActivity(intent);
                 }

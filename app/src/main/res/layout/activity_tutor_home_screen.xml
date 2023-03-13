@@ -72,15 +72,24 @@
                 android:backgroundTint="@color/primary"
                 android:text="Monitor Portion "
                 app:cornerRadius="15dp" />
-
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/manage_tests"
+                android:id="@+id/add_tests"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:layout_margin="10dp"
                 android:layout_marginTop="20dp"
                 android:backgroundTint="@color/primary"
-                android:text="Manage Tests"
+                android:text="Add Tests"
+                app:cornerRadius="15dp" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/view_tests"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_margin="10dp"
+                android:layout_marginTop="20dp"
+                android:backgroundTint="@color/primary"
+                android:text="View Tests"
                 app:cornerRadius="15dp" />
 
             <com.google.android.material.button.MaterialButton
@@ -102,6 +111,8 @@
                 android:backgroundTint="@color/primary"
                 android:text="Set Geo-Location"
                 app:cornerRadius="15dp" />
+
+
 
             <TextView
                 android:layout_width="match_parent"

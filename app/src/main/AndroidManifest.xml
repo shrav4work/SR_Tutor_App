@@ -18,11 +18,12 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
-            android:name=".Tutor_actual_geo_signin"
+            android:name=".tutor_.tutor_add_test"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
+            android:name=".tutor_.Tutor_actual_geo_signin"
             android:exported="false" />
+
         <!--
              TODO: Before you run your application, you need a Google Maps API key.
 
@@ -36,11 +37,9 @@
         -->
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="MAPS_API_KEY" />
+            android:value="AIzaSyCCl61gXRro9L9e3sWE1F1ZnHr24bxPAfA" />
 
-        <activity
-            android:name=".tutor_.Tutor_actual_geo_signin"
-            android:exported="false" />
+
         <activity
             android:name=".Reset_Password"
             android:exported="false" />

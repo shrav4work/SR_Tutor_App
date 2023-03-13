@@ -62,18 +62,10 @@
                 android:orientation="horizontal"
                 android:weightSum="300"
                 android:id="@+id/linear_layout_2">
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_weight="100"
-                    android:layout_height="wrap_content"
-                    android:text="Mathematics"
-                    android:textSize="14sp"
-                    android:id="@+id/subject"
-                    android:paddingVertical="5dp"
-                    android:textAlignment="center"/>
+
                 <TextView
                     android:textAlignment="center"
-                    android:layout_weight="100"
+                    android:layout_weight="150"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:text="8th Class"
@@ -82,7 +74,7 @@
                     android:paddingVertical="5dp"/>
                 <TextView
                     android:textAlignment="center"
-                    android:layout_weight="100"
+                    android:layout_weight="150"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:text="CBSE Board"

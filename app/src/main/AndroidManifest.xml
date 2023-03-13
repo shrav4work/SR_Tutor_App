@@ -18,6 +18,10 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+
+            android:name=".student_track_syllabus"
+            android:exported="false" />
+        <activity
             android:name=".tutor_.tutor_add_test"
             android:exported="false" />
         <activity

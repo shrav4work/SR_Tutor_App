@@ -4,6 +4,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
@@ -31,6 +32,13 @@ public class student_home_screen extends AppCompatActivity {
                 alert.setView(mView);
                 AlertDialog dialog = alert.create();
                 dialog.show();
+            }
+        });
+        findViewById(R.id.track_syllabus).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(student_home_screen.this,student_track_syllabus.class);
+                startActivity(intent);
             }
         });
     }

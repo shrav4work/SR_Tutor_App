@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".tutor_.tutor_about_tests">
+
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/select_subject_addtest"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.28">
+
+        <AutoCompleteTextView
+            android:id="@+id/autoCompleteTextView_select_subject_addtest"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:inputType="none"
+            android:text="Select Subject" />
+
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/enter_no_of_tests_btn"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:layout_marginTop="50dp"
+        app:layout_constraintTop_toBottomOf="@+id/select_subject_addtest"
+        tools:layout_editor_absoluteX="0dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        android:text="Enter number of Tests"
+        app:cornerRadius="15dp"/>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/enter_tests_abouttest_btn"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        app:cornerRadius="15dp"
+        android:layout_marginTop="50dp"
+        app:layout_constraintTop_toBottomOf="@+id/enter_no_of_tests_btn"
+        tools:layout_editor_absoluteX="0dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        android:text="Enter Test"/>
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

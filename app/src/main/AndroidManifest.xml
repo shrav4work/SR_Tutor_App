@@ -17,16 +17,6 @@
         android:theme="@style/Theme.LoginPage"
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
-        <activity
-
-            android:name=".student_track_syllabus"
-            android:exported="false" />
-        <activity
-            android:name=".tutor_.tutor_add_test"
-            android:exported="false" />
-        <activity
-            android:name=".tutor_.Tutor_actual_geo_signin"
-            android:exported="false" />
 
         <!--
              TODO: Before you run your application, you need a Google Maps API key.
@@ -42,7 +32,24 @@
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyCCl61gXRro9L9e3sWE1F1ZnHr24bxPAfA" />
-
+        <activity
+            android:name=".tutor_.tutor_about_tests"
+            android:exported="false" />
+        <activity
+            android:name=".tutor_.tutor_view_tests"
+            android:exported="false" />
+        <activity
+            android:name=".tutor_.tutor_add_test"
+            android:exported="false" />
+        <activity
+            android:name=".student_.student_track_syllabus"
+            android:exported="false" />
+        <activity
+            android:name=".tutor_.tutor_add_number_of_tests"
+            android:exported="false" />
+        <activity
+            android:name=".tutor_.Tutor_actual_geo_signin"
+            android:exported="false" />
 
         <activity
             android:name=".Reset_Password"

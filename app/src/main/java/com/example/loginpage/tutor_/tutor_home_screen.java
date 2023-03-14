@@ -1,17 +1,14 @@
 package com.example.loginpage.tutor_;
 
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.TextView;
 
 import com.example.loginpage.R;
 import com.example.loginpage.Set_Syllabus_;
-import com.example.loginpage.student_.student_home_screen;
 
 public class tutor_home_screen extends AppCompatActivity {
 
@@ -39,9 +36,19 @@ public class tutor_home_screen extends AppCompatActivity {
         findViewById(R.id.add_tests).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent =  new Intent(tutor_home_screen.this,tutor_add_test.class);
+                Intent intent =  new Intent(tutor_home_screen.this, tutor_about_tests.class);
                 startActivity(intent);
             }
         });
+
+        findViewById(R.id.view_tests).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent =  new Intent(tutor_home_screen.this, tutor_view_tests.class);
+                startActivity(intent);
+            }
+        });
+
+
     }
 }

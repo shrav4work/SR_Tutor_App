@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".tutor_.tutor_view_tests"
+    android:orientation="vertical"
+    android:layout_margin="30dp">
+
+    <TableLayout
+        android:layout_margin="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:stretchColumns="1,2,3,4">
+        <TableRow
+            android:background="@color/light_blue">
+            <TextView
+                android:text="Topic"
+                android:textStyle="bold"
+                android:textSize="16dp"
+                android:padding="10dp"
+                android:gravity="center"
+                android:layout_column = "1">
+            </TextView>
+
+            <TextView
+                android:layout_column="1"
+                android:gravity="center"
+                android:padding="10dp"
+                android:text="Date"
+                android:textSize="16dp"
+                android:textStyle="bold">
+
+            </TextView>
+
+            <TextView
+                android:text="Marks"
+                android:textStyle="bold"
+                android:textSize="16dp"
+                android:padding="10dp"
+                android:gravity="center"
+                android:layout_column="1">
+
+            </TextView>
+
+            <TextView
+                android:text="Maximum Marks"
+                android:textStyle="bold"
+                android:textSize="16dp"
+                android:padding="10dp"
+                android:gravity="center"
+                android:layout_column="1">
+
+            </TextView>
+
+        </TableRow>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_view_viewtests"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:padding="5dp">
+        </androidx.recyclerview.widget.RecyclerView>
+
+
+    </TableLayout>
+
+
+</LinearLayout>

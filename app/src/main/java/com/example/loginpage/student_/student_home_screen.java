@@ -4,12 +4,13 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
 import com.example.loginpage.R;
-import com.example.loginpage.main_screen.MainActivity;
+import com.example.loginpage.student_.monitor_test.student_monitor_tests;
 
 public class student_home_screen extends AppCompatActivity {
 
@@ -31,6 +32,14 @@ public class student_home_screen extends AppCompatActivity {
                 alert.setView(mView);
                 AlertDialog dialog = alert.create();
                 dialog.show();
+            }
+        });
+
+        findViewById(R.id.monitor_tests).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(student_home_screen.this, student_monitor_tests.class);
+                startActivity(intent);
             }
         });
     }

@@ -4,7 +4,6 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -29,10 +28,9 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.loginpage.R;
 import com.example.loginpage.UtilsService.UtilService;
-import com.example.loginpage.student_.student_home_screen;
+import com.example.loginpage.session_management.SessionManagement;
 import com.example.loginpage.tutor_.Tutor_actual_geo_signin;
 import com.example.loginpage.tutor_.tutor_geo_signin;
-import com.example.loginpage.tutor_.tutor_home_screen;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -44,7 +42,7 @@ import java.util.Map;
 
 public class Tutor_Login extends AppCompatActivity {
 
-//    String App_id = "sr_tutor-uowsj";
+
     private EditText username;
     private EditText password;
 
@@ -53,6 +51,22 @@ public class Tutor_Login extends AppCompatActivity {
 
     UtilService utilService;
     private String tutor_email, tutor_password;
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        SessionManagement sessionManagement = new SessionManagement(Tutor_Login.this);
+        if(sessionManagement.getSESSION_KEY() == null){
+            Toast.makeText(this, "No USER LOGIN FOUND. PLEASE LOGIN", Toast.LENGTH_SHORT).show();
+        }
+        else{
+            Toast.makeText(this, "User Already Logged in", Toast.LENGTH_SHORT).show();
+            String logged_in_email = sessionManagement.getSESSION_KEY();
+
+
+        }
+
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,8 +109,7 @@ public class Tutor_Login extends AppCompatActivity {
 
     }
     private void loginUser() {
-//        sp= getSharedPreferences("passEmail", Context.MODE_PRIVATE);
-//        SharedPreferences.Editor editor =sp.edit();
+
 
         HashMap<String,String> params =new HashMap<>();
         params.put("email",tutor_email);
@@ -113,13 +126,15 @@ public class Tutor_Login extends AppCompatActivity {
             public void onResponse(JSONObject response) {
                 try {
                     if(response.getBoolean("success")){
-                        String token = response.getString("token");
-                        Toast.makeText(Tutor_Login.this,token,Toast.LENGTH_SHORT).show();
+                        SessionManagement sessionManagement = new SessionManagement(Tutor_Login.this);
+                        sessionManagement.SaveSession(tutor_email);
+
+//                        String token = response.getString("token");
+//                        Toast.makeText(Tutor_Login.this,token,Toast.LENGTH_SHORT).show();
                         String lat = response.getString("lat");
                         String lon = response.getString("lon");
                         Log.i("Lat, Lon",lat+" "+lon);
-//                        editor.putString("email",response.getString("email"));
-//                        editor.commit();
+
                         if(lat.isEmpty() && lon.isEmpty()){
                             Intent intent = new Intent(Tutor_Login.this, tutor_geo_signin.class);
                             intent.putExtra("passEmail",response.getString("email"));

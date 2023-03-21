@@ -22,7 +22,6 @@ public class UtilService {
     }
 
     public String getIp(){
-
         String ip = "192.168.220.201";
         return ip;
     }

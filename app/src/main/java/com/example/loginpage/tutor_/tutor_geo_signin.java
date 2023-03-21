@@ -51,7 +51,7 @@ import javax.net.ssl.X509TrustManager;
 public class tutor_geo_signin extends AppCompatActivity {
     private GoogleMap mMap;
     double calcDistance;
-    int flag=0;
+    int flag = 0;
     String ip;
 
     UtilService utilService;

@@ -45,8 +45,6 @@ public class Tutor_Login extends AppCompatActivity {
 
     private EditText username;
     private EditText password;
-
-    SharedPreferences sp;
     String ip;
 
     UtilService utilService;
@@ -62,8 +60,6 @@ public class Tutor_Login extends AppCompatActivity {
         else{
             Toast.makeText(this, "User Already Logged in", Toast.LENGTH_SHORT).show();
             String logged_in_email = sessionManagement.getSESSION_KEY();
-
-
         }
 
     }
@@ -73,13 +69,11 @@ public class Tutor_Login extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         setContentView(R.layout.activity_tutor_login);
-
-
         TextView abt_srtutor = findViewById(R.id.tutor_login_abt_srtutor);
         username = findViewById(R.id.tutor_user);
         password = findViewById(R.id.tutor_pass);
         utilService = new UtilService();
-        ip =utilService.getIp();
+        ip = utilService.getIp();
         Log.i("IP",ip);
 
         findViewById(R.id.login_tutor).setOnClickListener(new View.OnClickListener() {
@@ -92,9 +86,6 @@ public class Tutor_Login extends AppCompatActivity {
                 }
             }
         });
-
-
-
         abt_srtutor.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -109,8 +100,6 @@ public class Tutor_Login extends AppCompatActivity {
 
     }
     private void loginUser() {
-
-
         HashMap<String,String> params =new HashMap<>();
         params.put("email",tutor_email);
         params.put("password",tutor_password);
@@ -153,7 +142,6 @@ public class Tutor_Login extends AppCompatActivity {
                     throw new RuntimeException(e);
                 }
 
-
             }
         }, new Response.ErrorListener() {
             @Override
@@ -162,20 +150,17 @@ public class Tutor_Login extends AppCompatActivity {
                 if(error instanceof ServerError && response!= null){
                     try{
                         String res = new String(response.data, HttpHeaderParser.parseCharset(response.headers,"utf-8"));
-
                         JSONObject obj = new JSONObject(res);
                         Toast.makeText(Tutor_Login.this, obj.getString("msg"),Toast.LENGTH_SHORT).show();
                     }catch(JSONException | UnsupportedEncodingException je){
                         je.printStackTrace();
                     }
                 }
-
             }
         }) {
             public Map<String,String> getHeaders() throws AuthFailureError {
                 HashMap<String,String> headers = new HashMap<>();
                 headers.put("Content-Type","application/json");
-
                 return params;
             }
         };
@@ -184,16 +169,8 @@ public class Tutor_Login extends AppCompatActivity {
         RetryPolicy policy = new DefaultRetryPolicy(socketTime,DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
         jsObjRequest.setRetryPolicy(policy);
-
-
         queue.add(jsObjRequest);
-
     }
-
-
-
-
-
     public boolean validate(View view){
         boolean isValid = false;
         if(!TextUtils.isEmpty(tutor_email)){

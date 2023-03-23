@@ -27,17 +27,6 @@ public class student_monitor_tests extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_student_monitor_tests);
 
-        autoCompleteTextView =findViewById(R.id.stu_select_sub);
-        adapter = new ArrayAdapter<String>(this,R.layout.drop_down,item);
-        autoCompleteTextView.setAdapter(adapter);
-        autoCompleteTextView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String item = parent.getItemAtPosition(position).toString();
-
-            }
-        });
-
 
         recycler_view = findViewById(R.id.recycler_view_student_monitor_tests);
         setRecyclerView();

@@ -49,5 +49,13 @@ public class tutor_about_tests extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        findViewById(R.id.view_tests).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent =  new Intent(tutor_about_tests.this, tutor_view_tests.class);
+                startActivity(intent);
+            }
+        });
     }
 }

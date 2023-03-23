@@ -4,7 +4,6 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -29,10 +28,9 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.loginpage.R;
 import com.example.loginpage.UtilsService.UtilService;
-import com.example.loginpage.student_.student_home_screen;
+import com.example.loginpage.session_management.SessionManagement;
 import com.example.loginpage.tutor_.Tutor_actual_geo_signin;
 import com.example.loginpage.tutor_.tutor_geo_signin;
-import com.example.loginpage.tutor_.tutor_home_screen;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -44,28 +42,38 @@ import java.util.Map;
 
 public class Tutor_Login extends AppCompatActivity {
 
-//    String App_id = "sr_tutor-uowsj";
+
     private EditText username;
     private EditText password;
-
-    SharedPreferences sp;
     String ip;
 
     UtilService utilService;
     private String tutor_email, tutor_password;
 
     @Override
+    protected void onStart() {
+        super.onStart();
+        SessionManagement sessionManagement = new SessionManagement(Tutor_Login.this);
+        if(sessionManagement.getSESSION_KEY() == null){
+            Toast.makeText(this, "No USER LOGIN FOUND. PLEASE LOGIN", Toast.LENGTH_SHORT).show();
+        }
+        else{
+            Toast.makeText(this, "User Already Logged in", Toast.LENGTH_SHORT).show();
+            String logged_in_email = sessionManagement.getSESSION_KEY();
+        }
+
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         setContentView(R.layout.activity_tutor_login);
-
-
         TextView abt_srtutor = findViewById(R.id.tutor_login_abt_srtutor);
         username = findViewById(R.id.tutor_user);
         password = findViewById(R.id.tutor_pass);
         utilService = new UtilService();
-        ip =utilService.getIp();
+        ip = utilService.getIp();
         Log.i("IP",ip);
 
         findViewById(R.id.login_tutor).setOnClickListener(new View.OnClickListener() {
@@ -78,9 +86,6 @@ public class Tutor_Login extends AppCompatActivity {
                 }
             }
         });
-
-
-
         abt_srtutor.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -95,9 +100,6 @@ public class Tutor_Login extends AppCompatActivity {
 
     }
     private void loginUser() {
-//        sp= getSharedPreferences("passEmail", Context.MODE_PRIVATE);
-//        SharedPreferences.Editor editor =sp.edit();
-
         HashMap<String,String> params =new HashMap<>();
         params.put("email",tutor_email);
         params.put("password",tutor_password);
@@ -113,13 +115,15 @@ public class Tutor_Login extends AppCompatActivity {
             public void onResponse(JSONObject response) {
                 try {
                     if(response.getBoolean("success")){
-                        String token = response.getString("token");
-                        Toast.makeText(Tutor_Login.this,token,Toast.LENGTH_SHORT).show();
+                        SessionManagement sessionManagement = new SessionManagement(Tutor_Login.this);
+                        sessionManagement.SaveSession(tutor_email);
+
+//                        String token = response.getString("token");
+//                        Toast.makeText(Tutor_Login.this,token,Toast.LENGTH_SHORT).show();
                         String lat = response.getString("lat");
                         String lon = response.getString("lon");
                         Log.i("Lat, Lon",lat+" "+lon);
-//                        editor.putString("email",response.getString("email"));
-//                        editor.commit();
+
                         if(lat.isEmpty() && lon.isEmpty()){
                             Intent intent = new Intent(Tutor_Login.this, tutor_geo_signin.class);
                             intent.putExtra("passEmail",response.getString("email"));
@@ -138,7 +142,6 @@ public class Tutor_Login extends AppCompatActivity {
                     throw new RuntimeException(e);
                 }
 
-
             }
         }, new Response.ErrorListener() {
             @Override
@@ -147,20 +150,17 @@ public class Tutor_Login extends AppCompatActivity {
                 if(error instanceof ServerError && response!= null){
                     try{
                         String res = new String(response.data, HttpHeaderParser.parseCharset(response.headers,"utf-8"));
-
                         JSONObject obj = new JSONObject(res);
                         Toast.makeText(Tutor_Login.this, obj.getString("msg"),Toast.LENGTH_SHORT).show();
                     }catch(JSONException | UnsupportedEncodingException je){
                         je.printStackTrace();
                     }
                 }
-
             }
         }) {
             public Map<String,String> getHeaders() throws AuthFailureError {
                 HashMap<String,String> headers = new HashMap<>();
                 headers.put("Content-Type","application/json");
-
                 return params;
             }
         };
@@ -169,16 +169,8 @@ public class Tutor_Login extends AppCompatActivity {
         RetryPolicy policy = new DefaultRetryPolicy(socketTime,DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
         jsObjRequest.setRetryPolicy(policy);
-
-
         queue.add(jsObjRequest);
-
     }
-
-
-
-
-
     public boolean validate(View view){
         boolean isValid = false;
         if(!TextUtils.isEmpty(tutor_email)){

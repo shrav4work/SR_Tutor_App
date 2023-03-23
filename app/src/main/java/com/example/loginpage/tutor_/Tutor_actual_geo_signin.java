@@ -14,6 +14,7 @@ import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.android.volley.ClientError;
@@ -46,6 +47,8 @@ public class Tutor_actual_geo_signin extends AppCompatActivity {
     private GoogleMap mMap;
     double calcDistance;
     String ip;
+    EditText student_id;
+    String stu_id;
 
     UtilService utilService;
     private static final int FINE_LOCATION_REQUEST_CODE = 1000;
@@ -56,6 +59,8 @@ public class Tutor_actual_geo_signin extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         setContentView(R.layout.activity_tutor_actual_geo_signin);
+
+
 
         utilService = new UtilService();
         ip =utilService.getIp();
@@ -75,8 +80,12 @@ public class Tutor_actual_geo_signin extends AppCompatActivity {
         findViewById(R.id.geo_signin_button_tutor).setOnClickListener((new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                student_id = (EditText) findViewById(R.id.enter_stu_id_geosignin);
+                stu_id = student_id.getText().toString();
+                Log.i("Get_Student_ID",stu_id);
                 if(calcDistance<20000){
                     Intent intent = new Intent(Tutor_actual_geo_signin.this,tutor_home_screen.class);
+                    intent.putExtra("enter_stu_id_geosignin",stu_id);
                     startActivity(intent);
                 }
                 else{

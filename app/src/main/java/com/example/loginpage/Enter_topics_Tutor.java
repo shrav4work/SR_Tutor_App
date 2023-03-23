@@ -4,12 +4,14 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -36,11 +38,16 @@ public class Enter_topics_Tutor extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String names=enter_topic.getText().toString();
-                topiclist.add(names);
+                if(!TextUtils.isEmpty(names)){
+                    topiclist.add(names);
+                    topics_list.setAdapter(arrayAdapter1);
+                    arrayAdapter1.notifyDataSetChanged();
+                    closeKeyboard();
+                    enter_topic.setText("");
+                }else{
+                    Toast.makeText(Enter_topics_Tutor.this,"Please enter a topic or click finish to Finish",Toast.LENGTH_LONG).show();
+                }
 
-                topics_list.setAdapter(arrayAdapter1);
-                arrayAdapter1.notifyDataSetChanged();
-                closeKeyboard();
             }
         });
 

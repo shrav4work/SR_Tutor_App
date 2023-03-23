@@ -32,7 +32,7 @@
             android:orientation="vertical"
             android:padding="15dp">
             <com.google.android.material.card.MaterialCardView
-                android:id="@+id/mapcardview_tutor_geosignin"
+                android:id="@+id/mapcardview_student"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
@@ -44,7 +44,7 @@
                 tools:layout="@layout/test_layout">
 
                 <androidx.fragment.app.FragmentContainerView
-                    android:id="@+id/map_tutor_geosignin"
+                    android:id="@+id/map"
                     android:name="com.google.android.gms.maps.SupportMapFragment"
                     android:layout_width="match_parent"
                     android:layout_height="450dp"
@@ -54,27 +54,24 @@
 
             </com.google.android.material.card.MaterialCardView>
 
-            <EditText
-                android:id="@+id/enter_stu_id_geosignin"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Enter Student ID"
-                android:textAlignment="center"
-                ></EditText>
-
-
-
-
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/geo_signin_button_tutor"
+                android:id="@+id/set_home_location_student"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:layout_margin="10dp"
                 android:layout_marginTop="20dp"
                 android:backgroundTint="@color/primary"
-                android:text="Sign In"
+                android:text="Set Home Location"
                 app:cornerRadius="15dp" />
-
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/skip_home_loc"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_margin="10dp"
+                android:layout_marginTop="20dp"
+                android:backgroundTint="@color/primary"
+                android:text="SKIP"
+                app:cornerRadius="15dp" />
 
         </LinearLayout>
     </com.google.android.material.card.MaterialCardView>

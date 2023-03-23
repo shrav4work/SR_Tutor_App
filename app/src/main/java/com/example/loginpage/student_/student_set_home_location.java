@@ -1,20 +1,16 @@
-package com.example.loginpage.tutor_;
+package com.example.loginpage.student_;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.app.ActivityCompat;
 
 import android.Manifest;
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.Toast;
 
 import com.android.volley.ClientError;
@@ -26,6 +22,8 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.loginpage.R;
 import com.example.loginpage.UtilsService.UtilService;
+import com.example.loginpage.tutor_.tutor_geo_signin;
+import com.example.loginpage.tutor_.tutor_home_screen;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -42,30 +40,32 @@ import org.json.JSONObject;
 
 import java.util.HashMap;
 
-public class Tutor_actual_geo_signin extends AppCompatActivity {
+public class student_set_home_location extends AppCompatActivity {
 
     private GoogleMap mMap;
     double calcDistance;
+    int flag=0;
     String ip;
-    EditText student_id;
-    String stu_id;
 
     UtilService utilService;
     private static final int FINE_LOCATION_REQUEST_CODE = 1000;
     private FusedLocationProviderClient locationClient;
+    String passedEmail;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-        setContentView(R.layout.activity_tutor_actual_geo_signin);
-
-
+        setContentView(R.layout.activity_student_set_home_location);
 
         utilService = new UtilService();
         ip =utilService.getIp();
         Log.i("IP",ip);
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map_tutor_geosignin);
+        passedEmail = getIntent().getStringExtra("passEmail");
+        Log.i("passedEmail",passedEmail);
+
+
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(new OnMapReadyCallback() {
             @Override
             public void onMapReady(@NonNull GoogleMap googleMap) {
@@ -77,23 +77,29 @@ public class Tutor_actual_geo_signin extends AppCompatActivity {
         prepareLocationServcies();
 
 
-        findViewById(R.id.geo_signin_button_tutor).setOnClickListener((new View.OnClickListener() {
+        findViewById(R.id.set_home_location_student).setOnClickListener((new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                student_id = (EditText) findViewById(R.id.enter_stu_id_geosignin);
-                stu_id = student_id.getText().toString();
-                Log.i("Get_Student_ID",stu_id);
-                if(calcDistance<20000){
-                    Intent intent = new Intent(Tutor_actual_geo_signin.this,tutor_home_screen.class);
-                    intent.putExtra("enter_stu_id_geosignin",stu_id);
+                if(flag==1){
+                    Intent intent = new Intent(student_set_home_location.this,student_home_screen.class);
                     startActivity(intent);
+                }else{
+                    Toast.makeText(student_set_home_location.this,"Home location not set properly.Please Try again..",Toast.LENGTH_SHORT).show();
                 }
-                else{
-                    Log.i("Location Fault","Location Not matched");
-                    Toast.makeText(Tutor_actual_geo_signin.this,"Invalid Location",Toast.LENGTH_SHORT).show();
-                }
+
             }
         }));
+
+        findViewById(R.id.skip_home_loc).setOnClickListener((new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(student_set_home_location.this, student_home_screen.class);
+                intent.putExtra("passEmail", passedEmail);
+                startActivity(intent);
+            }
+
+        }));
+
     }
     public void getLocationPermission(){
         ActivityCompat.requestPermissions(this,new String[] {android.Manifest.permission.ACCESS_FINE_LOCATION}, FINE_LOCATION_REQUEST_CODE);
@@ -112,7 +118,6 @@ public class Tutor_actual_geo_signin extends AppCompatActivity {
         }
 
     }
-
     public void showCurrentLocation(){
         if(ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED){
             getLocationPermission();
@@ -133,12 +138,14 @@ public class Tutor_actual_geo_signin extends AppCompatActivity {
 
                         // ------------------------------------------------------------------------------------------
 
-                        final RequestQueue queue = Volley.newRequestQueue(Tutor_actual_geo_signin.this);
-                        final String url = "http://"+ip+":3000/api/geo-signin";
+                        final RequestQueue queue = Volley.newRequestQueue(student_set_home_location.this);
+                        final String url = "http://"+ip+":3000/api/home_loc_student";
 
 
                         HashMap<String,String> params =new HashMap<>();
-                        params.put("email","shrav4work@gmail.com");
+                        params.put("lat",String.valueOf(location.getLatitude()));
+                        params.put("lon",String.valueOf(location.getLongitude()));
+                        params.put("email",passedEmail);
 
                         Log.i("lat,lon",params+"");
 
@@ -153,11 +160,10 @@ public class Tutor_actual_geo_signin extends AppCompatActivity {
                                         try {
                                             if(response.getBoolean("success")) {
                                                 String message = response.getString("msg");
-                                                Double latt =Double.parseDouble(response.getString("lat"));
-                                                Double lonn =Double.parseDouble(response.getString("lon"));
+//                                                Double latt =Double.parseDouble(response.getString("lat"));
+//                                                Double lonn =Double.parseDouble(response.getString("lon"));
                                                 Log.i("locationret",message);
-                                                calcDistance  = distance(latt, lonn,location.getLatitude(),location.getLongitude());
-                                                Log.i("distance",calcDistance+"");
+                                                flag=1;
                                             }
                                         } catch (JSONException e) {
                                             Log.i("Error",e.getMessage()+"");
@@ -192,7 +198,7 @@ public class Tutor_actual_geo_signin extends AppCompatActivity {
                         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng,17.0f));
                     }
                     else {
-                        Toast.makeText(Tutor_actual_geo_signin.this,"Something went wrong, Please try agin",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(student_set_home_location.this,"Something went wrong, Please try agin",Toast.LENGTH_SHORT).show();
                     }
                 }
             });
@@ -203,18 +209,5 @@ public class Tutor_actual_geo_signin extends AppCompatActivity {
         locationClient = LocationServices.getFusedLocationProviderClient(this);
 
     }
-    private double distance(double lat1, double lng1, double lat2, double lng2) {
-        //15.370878, 75.123034 office location            // 15.3663063  75.128305   //15.3664028  75.1288156  //15.3664028  75.1288156
-        double earthRadius = 6371000; // in miles, change to 6371 for kilometer output
-        double dLat = Math.toRadians(lat2-lat1);
-        double dLng = Math.toRadians(lng2-lng1);
-        double sindLat = Math.sin(dLat / 2);
-        double sindLng = Math.sin(dLng / 2);
-        double a = Math.pow(sindLat, 2) + Math.pow(sindLng, 2)  * Math.cos(Math.toRadians(lat1)) * Math.cos(Math.toRadians(lat2));
-        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
 
-        double dist = earthRadius * c;
-
-        return dist; // output distance, in MILES
-    }
 }

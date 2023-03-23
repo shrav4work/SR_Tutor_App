@@ -33,6 +33,8 @@ import com.example.loginpage.Reset_Password;
 import com.example.loginpage.UtilsService.UtilService;
 import com.example.loginpage.main_screen.MainActivity;
 import com.example.loginpage.student_.student_home_screen;
+import com.example.loginpage.student_.student_set_home_location;
+import com.example.loginpage.tutor_.Tutor_actual_geo_signin;
 import com.example.loginpage.tutor_.tutor_geo_signin;
 
 import org.json.JSONException;
@@ -82,10 +84,10 @@ public class Student_Login extends AppCompatActivity {
         findViewById(R.id.login_student).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                closeKeyboard();
+
                 username = student_username.getText().toString();
                 password = student_password.getText().toString();
-
+                closeKeyboard();
                 if(validate(view)){
                     loginUser();
                 }
@@ -125,7 +127,22 @@ public class Student_Login extends AppCompatActivity {
                     if(response.getBoolean("success")){
                         String token = response.getString("token");
                         Toast.makeText(Student_Login.this,token,Toast.LENGTH_SHORT).show();
-                        startActivity(new Intent(Student_Login.this, student_home_screen.class));
+//                        getCoordinates(response.getString("email"));
+                        String lat = response.getString("lat");
+                        String lon = response.getString("lon");
+                        Log.i("Lat, Lon",lat+" "+lon);
+
+                        if(lat.isEmpty() && lon.isEmpty()){
+                            Intent intent = new Intent(Student_Login.this, student_set_home_location.class);
+                            intent.putExtra("passEmail",response.getString("email"));
+                            startActivity(intent);
+                        }
+                        else{
+                            Intent intent = new Intent(Student_Login.this, student_home_screen.class);
+                            intent.putExtra("passEmail",response.getString("email"));
+                            startActivity(intent);
+                        }
+
                     }
                     else{
                         Toast.makeText(Student_Login.this,"Invalid Username or password",Toast.LENGTH_SHORT).show();
@@ -168,8 +185,8 @@ public class Student_Login extends AppCompatActivity {
 
 
         queue.add(jsObjRequest);
-
     }
+
 
     public boolean validate(View view){
         boolean isValid = false;
@@ -193,4 +210,6 @@ public class Student_Login extends AppCompatActivity {
             imm.hideSoftInputFromWindow(view.getWindowToken(),0);
         }
     }
+
+
 }

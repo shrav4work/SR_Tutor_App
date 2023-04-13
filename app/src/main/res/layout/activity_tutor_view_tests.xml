@@ -6,29 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".tutor_.tutor_view_tests"
     android:orientation="vertical"
-    android:layout_margin="5dp">
-
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/tutor_viewtests_selectsub_dropdown"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="42dp"
-        android:layout_marginBottom="32dp"
-        android:layout_marginEnd="32dp"
-        android:hint="Select Subject">
-
-        <AutoCompleteTextView
-            android:id="@+id/tutor_view_select_sub_autocompletetext"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:inputType="none" />
-    </com.google.android.material.textfield.TextInputLayout>
-
-
+    android:layout_margin="20dp">
 
 
     <TableLayout

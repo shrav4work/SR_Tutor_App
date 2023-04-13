@@ -52,7 +52,7 @@
             android:name=".tutor_.tutor_add_test"
             android:exported="false" />
         <activity
-            android:name=".student_.student_track_syllabus"
+            android:name=".student_.track_syllabus.student_track_syllabus"
             android:exported="false" />
         <activity
             android:name=".tutor_.tutor_add_number_of_tests"

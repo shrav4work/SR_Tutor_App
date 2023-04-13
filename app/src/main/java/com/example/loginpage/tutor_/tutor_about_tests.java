@@ -16,6 +16,7 @@ public class tutor_about_tests extends AppCompatActivity {
     String[] item = {"English","Maths","Kannada","Science","Social Science","Maths"};
     AutoCompleteTextView autoCompleteTextView;
     ArrayAdapter<String> adapter;
+    String itemSelected;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,7 +29,7 @@ public class tutor_about_tests extends AppCompatActivity {
         autoCompleteTextView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String item = parent.getItemAtPosition(position).toString();
+                itemSelected = parent.getItemAtPosition(position).toString();
 
             }
         });
@@ -46,6 +47,7 @@ public class tutor_about_tests extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent =  new Intent(tutor_about_tests.this, tutor_add_test.class);
+                intent.putExtra("subjectSelected",itemSelected);
                 startActivity(intent);
             }
         });
@@ -54,6 +56,7 @@ public class tutor_about_tests extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent =  new Intent(tutor_about_tests.this, tutor_view_tests.class);
+                intent.putExtra("subjectSelected",itemSelected);
                 startActivity(intent);
             }
         });

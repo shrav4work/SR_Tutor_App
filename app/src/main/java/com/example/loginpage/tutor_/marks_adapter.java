@@ -19,12 +19,18 @@ import java.util.List;
 public class marks_adapter extends RecyclerView.Adapter<marks_adapter.ViewHolder> {
 
     Context context;
+
     List<Marks_model> marks_list;
 
+//    marks_adapter(){}
+
     public marks_adapter(Context context,List<Marks_model> marks_list){
-        this.context=context;
+        this.context = context;
         this.marks_list=marks_list;
     }
+
+
+
 
     @NonNull
     @Override
@@ -35,16 +41,12 @@ public class marks_adapter extends RecyclerView.Adapter<marks_adapter.ViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        if(marks_list !=null && marks_list.size()>0){
             Marks_model model = marks_list.get(position);
             holder.topic_tv.setText(model.getTopic());
             holder.date_tv.setText(model.getDate());
             holder.marks_scored_tv.setText(model.getMarks()+"");
             holder.max_marks_tv.setText(model.getMax_marks()+"");
 
-        }else{
-            return;
-        }
     }
 
     @Override

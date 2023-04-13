@@ -1,4 +1,4 @@
-package com.example.loginpage.student_;
+package com.example.loginpage.student_.track_syllabus;
 
 import androidx.appcompat.app.AppCompatActivity;
 

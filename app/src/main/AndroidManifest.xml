@@ -76,6 +76,7 @@
             android:name=".student_.student_home_screen"
             android:exported="false" />
         <activity
+            android:parentActivityName=".tutor_.tutor_geo_signin"
             android:name=".tutor_.tutor_home_screen"
             android:exported="false" />
         <activity

@@ -9,6 +9,10 @@
     android:orientation="vertical"
     tools:context=".main_screen.MainActivity">
 
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar"></include>
+
     <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
         android:layout_height="match_parent"

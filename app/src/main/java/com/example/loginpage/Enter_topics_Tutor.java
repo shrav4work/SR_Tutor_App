@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Context;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
@@ -12,6 +13,8 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
+
+import com.example.loginpage.UtilsService.UtilService;
 
 import java.util.ArrayList;
 
@@ -21,6 +24,8 @@ public class Enter_topics_Tutor extends AppCompatActivity {
     AutoCompleteTextView enter_topic;
     ListView topics_list;
     ArrayAdapter<String> arrayAdapter1;
+    UtilService utilService;
+    String ip;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,9 +39,13 @@ public class Enter_topics_Tutor extends AppCompatActivity {
         arrayAdapter1 = new ArrayAdapter<String>(getApplicationContext(),
                 android.R.layout.simple_list_item_1,topiclist);
 
+        utilService = new UtilService();
+        ip =utilService.getIp();
+
         findViewById(R.id.add_topic).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                final String url = "http://"+ip+":3000/api/enter_syllabus";
                 String names=enter_topic.getText().toString();
                 if(!TextUtils.isEmpty(names)){
                     topiclist.add(names);
@@ -47,7 +56,7 @@ public class Enter_topics_Tutor extends AppCompatActivity {
                 }else{
                     Toast.makeText(Enter_topics_Tutor.this,"Please enter a topic or click finish to Finish",Toast.LENGTH_LONG).show();
                 }
-
+                Log.i("topics list", String.valueOf(topiclist));
             }
         });
 

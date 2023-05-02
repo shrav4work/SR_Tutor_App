@@ -46,6 +46,7 @@ public class Enter_topics_Tutor extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 final String url = "http://"+ip+":3000/api/enter_syllabus";
+
                 String names=enter_topic.getText().toString();
                 if(!TextUtils.isEmpty(names)){
                     topiclist.add(names);

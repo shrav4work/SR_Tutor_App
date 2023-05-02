@@ -54,12 +54,17 @@ public class Tutor_Login extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         SessionManagement sessionManagement = new SessionManagement(Tutor_Login.this);
-        if(sessionManagement.getSESSION_KEY() == null){
-            Toast.makeText(this, "No USER LOGIN FOUND. PLEASE LOGIN", Toast.LENGTH_SHORT).show();
+        String mailSession = sessionManagement.getSESSION_KEY();
+        if(mailSession != null){
+
+            Intent intent = new Intent(Tutor_Login.this, Tutor_actual_geo_signin.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK| Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
         }
         else{
-            Toast.makeText(this, "User Already Logged in", Toast.LENGTH_SHORT).show();
-            String logged_in_email = sessionManagement.getSESSION_KEY();
+//            Toast.makeText(this, "User Already Logged in", Toast.LENGTH_SHORT).show();
+//            String logged_in_email = sessionManagement.getSESSION_KEY();
+
         }
 
     }

@@ -22,4 +22,8 @@ public class SessionManagement {
     public String getSESSION_KEY(){
         return sharedPreferences.getString(SESSION_KEY,null);
     }
+
+    public void removeSession(){
+        editor.putString(SESSION_KEY,null).commit();
+    }
 }

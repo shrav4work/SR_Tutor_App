@@ -63,8 +63,18 @@
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:layout_marginTop="@+id/no_of_hrs_text"
-        android:layout_margin="30dp"
+        android:layout_margin="20dp"
         android:backgroundTint="@color/primary"
         android:text="Enter Topics"
+        app:cornerRadius="15dp" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/view_set_syllabus_"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_marginTop="@+id/set_syllabus"
+        android:layout_margin="20dp"
+        android:backgroundTint="@color/primary"
+        android:text="View Syllabus"
         app:cornerRadius="15dp" />
 </LinearLayout>

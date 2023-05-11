@@ -4,18 +4,31 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.ListView;
+import android.widget.Toast;
 
+import com.android.volley.NetworkError;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.ServerError;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.example.loginpage.R;
 import com.example.loginpage.StudentAdapter;
 import com.example.loginpage.Student_Details;
 import com.example.loginpage.UtilsService.UtilService;
+import com.example.loginpage.UtilsService.VolleySingleton;
 import com.google.android.material.textfield.TextInputLayout;
 
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 
@@ -27,10 +40,33 @@ public class student_list extends AppCompatActivity {
     UtilService utilService;
     String ip;
 
+    String[] item = {"English","Maths","Kannada","Science","Social Science","Maths"};
+    AutoCompleteTextView autoCompleteTextView;
+    ArrayAdapter<String> adapter;
+    String itemSelected;
+
+    ArrayList<Student_Details> studentList = new ArrayList<>();
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_student_list);
+
+
+
+        autoCompleteTextView =findViewById(R.id.autoCompleteTextView_select_subject_student_details);
+        adapter = new ArrayAdapter<String>(this,R.layout.drop_down,item);
+        autoCompleteTextView.setAdapter(adapter);
+
+        ListView student_list_view = findViewById(R.id.student_list_view);
+        autoCompleteTextView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                itemSelected = parent.getItemAtPosition(position).toString();
+                setData(student_list_view,itemSelected);
+            }
+        });
 
         studentIdInput = (TextInputLayout)findViewById(R.id.student_id_text);
         studentIdAuto = (AutoCompleteTextView)findViewById(R.id.student_list_text);
@@ -42,20 +78,82 @@ public class student_list extends AppCompatActivity {
         studentListAdapter = new ArrayAdapter<>(getApplicationContext(), androidx.appcompat.R.layout.support_simple_spinner_dropdown_item,studentIdList);
         studentIdAuto.setAdapter(studentListAdapter);
         studentIdAuto.setThreshold(2);
-        ListView student_list_view = findViewById(R.id.student_list_view);
 
-        Student_Details s1 = new Student_Details("7","Subject1","A DIV","CBSE","20","15","5","30","70");
-        Student_Details s2 = new Student_Details("7","Subject1","A DIV","CBSE","20","15","5","30","70");
-        Student_Details s3 = new Student_Details("7","Subject1","A DIV","CBSE","20","15","5","30","70");
-        ArrayList<Student_Details> studentList = new ArrayList<>();
-        studentList.add(s1);
-        studentList.add(s2);
-        studentList.add(s3);
-        StudentAdapter adapter = new StudentAdapter(this,R.layout.student_list_adapter,studentList);
-        student_list_view.setAdapter(adapter);
-        closeKeyboard();
+
+
+//        Student_Details s1 = new Student_Details("7","Subject1","A DIV","CBSE","20","15","5","30","70");
+//        Student_Details s2 = new Student_Details("7","Subject1","A DIV","CBSE","20","15","5","30","70");
+//        Student_Details s3 = new Student_Details("7","Subject1","A DIV","CBSE","20","15","5","30","70");
+
+
+//        studentList.add(s1);
+//        studentList.add(s2);
+//        studentList.add(s3);
+//        StudentAdapter adapter = new StudentAdapter(this,R.layout.student_list_adapter,studentList);
+//        student_list_view.setAdapter(adapter);
+//        closeKeyboard();
 
     }
+
+    private void setData(ListView student_list_view, String itemSelected) {
+        utilService = new UtilService();
+        ip =utilService.getIp();
+
+        final String url = "http://"+ip+":3000/api/student_details/01fe19bcs060/"+itemSelected;
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+
+                try {
+                    Student_Details s1 = new Student_Details(
+                            response.optString("classs",""),
+                            response.getString("subject"),
+                            "A DIV",
+                            response.getString("board"),
+                            response.getString("class_planned"),
+                            response.getString("class_engaged"),
+                            response.getString("class_pending"),
+                            response.getString("portion_covered"),
+                            response.getString("portion_pending"));
+
+                    studentList.add(s1);
+                } catch (JSONException e) {
+                    throw new RuntimeException(e);
+                }
+                StudentAdapter adapter = new StudentAdapter(student_list.this,R.layout.student_list_adapter,studentList);
+                student_list_view.setAdapter(adapter);
+                closeKeyboard();
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                if (error instanceof NetworkError) {
+                    // Handle network error
+                    Toast.makeText(student_list.this, "Network Error", Toast.LENGTH_SHORT).show();
+                } else if (error instanceof ServerError) {
+                    // Handle server error
+                    int statusCode = error.networkResponse != null ? error.networkResponse.statusCode : 0;
+                    if (statusCode == 404) {
+                        Toast.makeText(student_list.this, "Subject not found for the student", Toast.LENGTH_SHORT).show();
+                    } else if (statusCode == 401) {
+                        Toast.makeText(student_list.this, "Student Not Found", Toast.LENGTH_SHORT).show();
+                        
+                    } else {
+                        Toast.makeText(student_list.this, "Server Error", Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    // Handle other errors
+                    Toast.makeText(student_list.this, "Error occurred", Toast.LENGTH_SHORT).show();
+                }
+                Log.d("tag", "onErrorResponse: " + error.getMessage());
+            }
+            
+        });
+        VolleySingleton.getInstance(student_list.this).addToRequestQueue(jsonObjectRequest);
+    }
+
     private void closeKeyboard(){
         View view= this.getCurrentFocus();
         if(view!=null){

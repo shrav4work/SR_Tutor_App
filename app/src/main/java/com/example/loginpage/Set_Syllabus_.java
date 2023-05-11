@@ -55,5 +55,11 @@ public class Set_Syllabus_ extends AppCompatActivity {
             }
         });
 
+//        findViewById(R.id.view_set_syllabus_).setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//
+//            }
+//        });
     }
 }

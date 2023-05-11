@@ -8,7 +8,7 @@
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_marginHorizontal="60dp"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="20dp"
         android:layout_height="wrap_content"
         android:id="@+id/student_id_text"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -31,12 +31,33 @@
 
     </com.google.android.material.textfield.TextInputLayout>
 
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/select_subject_student_details"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="60dp"
+        android:layout_marginBottom="20dp"
+        android:layout_marginTop="10dp"
+        android:layout_below="@+id/student_id_text">
+
+        <AutoCompleteTextView
+            android:id="@+id/autoCompleteTextView_select_subject_student_details"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:inputType="none"
+            android:text="Select Subject" />
+
+
+    </com.google.android.material.textfield.TextInputLayout>
+
     <ListView
         android:id="@+id/student_list_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
-        android:layout_below="@id/student_id_text"></ListView>
+        android:layout_marginTop="10dp"
+        android:layout_below="@id/select_subject_student_details"></ListView>
 
 </RelativeLayout>
 

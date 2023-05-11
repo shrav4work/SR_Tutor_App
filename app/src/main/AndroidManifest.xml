@@ -17,7 +17,9 @@
         android:theme="@style/Theme.LoginPage"
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
-
+        <activity
+            android:name=".view_syllabus"
+            android:exported="false" />
         <!--
              TODO: Before you run your application, you need a Google Maps API key.
 
@@ -32,13 +34,13 @@
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyCCl61gXRro9L9e3sWE1F1ZnHr24bxPAfA" />
+
         <activity
             android:name=".student_.student_set_home_location"
             android:exported="false" />
         <activity
             android:name=".student_.payment_details.student_payment_details"
             android:exported="false" />
-
         <activity
             android:name=".student_.monitor_test.student_monitor_tests"
             android:exported="false" />
@@ -76,9 +78,9 @@
             android:name=".student_.student_home_screen"
             android:exported="false" />
         <activity
-            android:parentActivityName=".tutor_.tutor_geo_signin"
             android:name=".tutor_.tutor_home_screen"
-            android:exported="false" />
+            android:exported="false"
+            android:parentActivityName=".tutor_.tutor_geo_signin" />
         <activity
             android:name=".tutor_.tutor_geo_signin"
             android:exported="false" />

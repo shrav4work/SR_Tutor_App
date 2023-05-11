@@ -31,7 +31,7 @@ public class Set_Syllabus_ extends AppCompatActivity {
         student_id=getIntent().getStringExtra("student_id");
         autoCompleteTxt = findViewById(R.id.autoCompleteTextView1);
 
-        Log.i("Student_id",student_id);
+//        Log.i("Student_id",student_id);
         student_sylabus_id = findViewById(R.id.student_sylabus_id);
         student_sylabus_id.setText(student_id);
 

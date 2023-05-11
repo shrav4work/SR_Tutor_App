@@ -32,7 +32,7 @@ public class tutor_home_screen extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         student_id=getIntent().getStringExtra("enter_stu_id_geosignin");
-        Log.i("Student_id",student_id);
+//        Log.i("Student_id",student_id);
 
 
         findViewById(R.id.student_list).setOnClickListener(new View.OnClickListener() {

@@ -44,7 +44,7 @@ public class tutor_add_test extends AppCompatActivity {
         setContentView(R.layout.activity_tutor_add_test);
 
         subject = getIntent().getStringExtra("subjectSelected");
-        Log.i("subject",subject);
+//        Log.i("subject",subject);
         topic_name=findViewById(R.id.topic_name);
         date_of_test=findViewById(R.id.date_of_test);
         marks_scored=findViewById(R.id.marks_scored);

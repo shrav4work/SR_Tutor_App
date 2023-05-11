@@ -13,6 +13,7 @@ import android.widget.ListView;
 import com.example.loginpage.R;
 import com.example.loginpage.StudentAdapter;
 import com.example.loginpage.Student_Details;
+import com.example.loginpage.UtilsService.UtilService;
 import com.google.android.material.textfield.TextInputLayout;
 
 
@@ -23,6 +24,8 @@ public class student_list extends AppCompatActivity {
     AutoCompleteTextView studentIdAuto;
     ArrayList<String> studentIdList;
     ArrayAdapter<String> studentListAdapter;
+    UtilService utilService;
+    String ip;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +43,7 @@ public class student_list extends AppCompatActivity {
         studentIdAuto.setAdapter(studentListAdapter);
         studentIdAuto.setThreshold(2);
         ListView student_list_view = findViewById(R.id.student_list_view);
+
         Student_Details s1 = new Student_Details("7","Subject1","A DIV","CBSE","20","15","5","30","70");
         Student_Details s2 = new Student_Details("7","Subject1","A DIV","CBSE","20","15","5","30","70");
         Student_Details s3 = new Student_Details("7","Subject1","A DIV","CBSE","20","15","5","30","70");

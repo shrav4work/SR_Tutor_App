@@ -52,6 +52,7 @@ public class StudentAdapter extends ArrayAdapter<Student_Details> {
         TextView classPendingText = (TextView) convertView.findViewById(R.id.class_pending);
         TextView portionCoveredText = (TextView) convertView.findViewById(R.id.portion_covered);
         TextView portionpendingText = (TextView) convertView.findViewById(R.id.portion_pending);
+
         classText.setText("Class: " + std);
         boardText.setText("Board: "+ board);
         subjectText.setText("Subject: "+ sub);

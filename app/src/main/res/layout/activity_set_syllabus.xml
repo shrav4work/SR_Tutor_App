@@ -5,12 +5,17 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:layout_margin="30dp">
+    >
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar"></include>
+
 
     <com.google.android.material.textfield.MaterialAutoCompleteTextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
+        android:hint="Student ID"
         android:layout_marginTop="32dp"
         android:layout_marginEnd="32dp"
         android:id="@+id/student_sylabus_id">
@@ -37,32 +42,13 @@
 
 
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/no_of_hrs_text"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="32dp"
-        android:layout_marginEnd="32dp"
-        app:boxStrokeColor="@color/blue"
-        android:hint="Enter number of hours">
 
-        <AutoCompleteTextView
-            android:id="@+id/no_of_hrs_auto"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:padding="15dp">
-
-        </AutoCompleteTextView>
-    </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/set_syllabus"
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:layout_marginTop="@+id/no_of_hrs_text"
+        android:layout_marginTop="@+id/autoCompleteTextView1"
         android:layout_margin="20dp"
         android:backgroundTint="@color/primary"
         android:text="Enter Topics"
@@ -77,4 +63,6 @@
         android:backgroundTint="@color/primary"
         android:text="View Syllabus"
         app:cornerRadius="15dp" />
+
+
 </LinearLayout>

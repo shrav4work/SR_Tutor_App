@@ -3,7 +3,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/tutor_abt_srtutor"
+
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -27,9 +27,7 @@
         app:cardElevation="20dp"
         app:strokeColor="@color/grey"
         app:strokeWidth="2dp">
-        <ScrollView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -44,7 +42,7 @@
                     android:id="@+id/set_syllabus"
                     android:layout_width="match_parent"
                     android:layout_height="60dp"
-                    android:layout_margin="10dp"
+                    android:layout_margin="20dp"
                     android:layout_marginTop="20dp"
                     android:backgroundTint="@color/primary"
                     android:text="Set Syllabus for students"
@@ -54,7 +52,7 @@
                     android:id="@+id/student_list"
                     android:layout_width="match_parent"
                     android:layout_height="60dp"
-                    android:layout_margin="10dp"
+                    android:layout_margin="20dp"
                     android:layout_marginTop="20dp"
                     android:backgroundTint="@color/primary"
                     android:text="Student List"
@@ -65,7 +63,7 @@
                     android:id="@+id/add_tests"
                     android:layout_width="match_parent"
                     android:layout_height="60dp"
-                    android:layout_margin="10dp"
+                    android:layout_margin="20dp"
                     android:layout_marginTop="20dp"
                     android:backgroundTint="@color/primary"
                     android:text="Add Tests"
@@ -76,29 +74,34 @@
                     android:id="@+id/message"
                     android:layout_width="match_parent"
                     android:layout_height="60dp"
-                    android:layout_margin="10dp"
+                    android:layout_margin="20dp"
                     android:layout_marginTop="20dp"
                     android:backgroundTint="@color/primary"
                     android:text="Message"
                     app:cornerRadius="15dp" />
 
 
-                <TextView
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/message"
-                    android:layout_marginTop="30dp"
-                    android:layout_marginBottom="10dp"
-                    android:fontFamily="@font/trebuc"
-                    android:text="About SR Tutorials"
-                    android:textAlignment="center"
-                    android:textColor="@color/dark_blue"
-                    android:textFontWeight="1000"
-                    android:textSize="20sp" />
+                    android:layout_height="match_parent"
+                    android:gravity="bottom|center_horizontal">
+                    <TextView
+                        android:id="@+id/tutor_abt_srtutor"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp"
+                        android:fontFamily="@font/trebuc"
+                        android:text="About SR Tutorials"
+                        android:textAlignment="center"
+                        android:textColor="@color/dark_blue"
+                        android:textFontWeight="1000"
+                        android:textSize="20sp" />
+                </LinearLayout>
+
 
             </LinearLayout>
 
-        </ScrollView>
+
 
 
     </com.google.android.material.card.MaterialCardView>

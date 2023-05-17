@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
@@ -22,6 +23,8 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.loginpage.R;
 import com.example.loginpage.UtilsService.UtilService;
+import com.example.loginpage.login_pages.Student_Login;
+import com.example.loginpage.session_management.SessionManagementStudent;
 import com.example.loginpage.tutor_.tutor_geo_signin;
 import com.example.loginpage.tutor_.tutor_home_screen;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -53,6 +56,7 @@ public class student_set_home_location extends AppCompatActivity {
     String passedEmail;
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,6 +67,10 @@ public class student_set_home_location extends AppCompatActivity {
         Log.i("IP",ip);
         passedEmail = getIntent().getStringExtra("passEmail");
         Log.i("passedEmail",passedEmail);
+
+//        SessionManagementStudent sessionManagementStudent = new SessionManagementStudent(student_set_home_location.this);
+//        passedEmail = sessionManagementStudent.getEmail();
+//        Log.i("passedEmail",passedEmail);
 
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);

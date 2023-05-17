@@ -1,10 +1,16 @@
 package com.example.loginpage.tutor_;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
@@ -24,6 +30,8 @@ import com.example.loginpage.StudentAdapter;
 import com.example.loginpage.Student_Details;
 import com.example.loginpage.UtilsService.UtilService;
 import com.example.loginpage.UtilsService.VolleySingleton;
+import com.example.loginpage.login_pages.Tutor_Login;
+import com.example.loginpage.session_management.SessionManagement;
 import com.google.android.material.textfield.TextInputLayout;
 
 
@@ -54,6 +62,10 @@ public class student_list extends AppCompatActivity {
         setContentView(R.layout.activity_student_list);
 
 
+
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         autoCompleteTextView =findViewById(R.id.autoCompleteTextView_select_subject_student_details);
         adapter = new ArrayAdapter<String>(this,R.layout.drop_down,item);
@@ -160,5 +172,28 @@ public class student_list extends AppCompatActivity {
             InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.hideSoftInputFromWindow(view.getWindowToken(),0);
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.toolbar_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+
+        int id = item.getItemId();
+
+        if(id == R.id.item1){
+            SessionManagement sessionManagement = new SessionManagement(student_list.this);
+            sessionManagement.removeSession();
+            Intent intent = new Intent(student_list.this, Tutor_Login.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK| Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

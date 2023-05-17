@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.loginpage.R;
+import com.example.loginpage.tutor_.Marks_model;
 
 import java.util.List;
 
@@ -18,7 +19,7 @@ public class StudentTestAdapter extends RecyclerView.Adapter<StudentTestAdapter.
     Context context;
     List<StudentTestModel> marks_list;
 
-    public StudentTestAdapter(Context context,List<StudentTestModel> marks_list){
+    public StudentTestAdapter(Context context, List<StudentTestModel> marks_list){
         this.context=context;
         this.marks_list=marks_list;
     }

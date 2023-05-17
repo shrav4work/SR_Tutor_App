@@ -35,7 +35,8 @@
 
         <activity
             android:name=".tutor_.view_syllabus"
-            android:exported="false" />
+            android:exported="false"
+            android:parentActivityName=".Set_Syllabus_"/>
         <activity
             android:name=".student_.student_set_home_location"
             android:exported="false" />
@@ -47,19 +48,24 @@
             android:exported="false" />
         <activity
             android:name=".tutor_.tutor_about_tests"
-            android:exported="false" />
+            android:exported="false"
+            android:parentActivityName=".tutor_.tutor_home_screen"/>
         <activity
             android:name=".tutor_.tutor_view_tests"
-            android:exported="false" />
+            android:exported="false"
+            android:parentActivityName=".tutor_.tutor_about_tests"/>
         <activity
             android:name=".tutor_.tutor_add_test"
-            android:exported="false" />
+            android:exported="false"
+            android:parentActivityName=".tutor_.tutor_about_tests"/>
         <activity
             android:name=".student_.track_syllabus.student_track_syllabus"
-            android:exported="false" />
+            android:exported="false"
+            android:parentActivityName=".student_.student_home_screen"/>
         <activity
             android:name=".tutor_.tutor_add_number_of_tests"
-            android:exported="false" />
+            android:exported="false"
+            android:parentActivityName=".tutor_.tutor_about_tests"/>
         <activity
             android:name=".tutor_.Tutor_actual_geo_signin"
             android:exported="false" />
@@ -68,13 +74,16 @@
             android:exported="false" />
         <activity
             android:name=".Enter_topics_Tutor"
-            android:exported="false" />
+            android:exported="false"
+            android:parentActivityName=".Set_Syllabus_"/>
         <activity
             android:name=".Set_Syllabus_"
-            android:exported="false" />
+            android:exported="false"
+            android:parentActivityName=".tutor_.tutor_home_screen"/>
         <activity
             android:name=".tutor_.student_list"
-            android:exported="false" />
+            android:exported="false"
+            android:parentActivityName=".tutor_.tutor_home_screen"/>
         <activity
             android:name=".student_.student_home_screen"
             android:exported="false" />

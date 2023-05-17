@@ -1,11 +1,17 @@
 package com.example.loginpage.tutor_;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -14,6 +20,8 @@ import com.android.volley.toolbox.JsonArrayRequest;
 import com.example.loginpage.R;
 import com.example.loginpage.UtilsService.UtilService;
 import com.example.loginpage.UtilsService.VolleySingleton;
+import com.example.loginpage.login_pages.Tutor_Login;
+import com.example.loginpage.session_management.SessionManagement;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -36,6 +44,9 @@ public class tutor_view_tests extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tutor_view_tests);
 
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         recycler_view = findViewById(R.id.recycler_view_viewtests);
         setData();
@@ -53,7 +64,7 @@ public class tutor_view_tests extends AppCompatActivity {
         utilService = new UtilService();
         ip =utilService.getIp();
 
-        final String url = "http://"+ip+":3000/api/test_details/01fe19bcs093";
+        final String url = "http://"+ip+":3000/api/test_details/01fe19bcs060/Science";
 
 //        RequestQueue queue = Volley.newRequestQueue(this);
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
@@ -64,7 +75,7 @@ public class tutor_view_tests extends AppCompatActivity {
                         JSONObject marksObject = response.getJSONObject(i);
 //                        Log.i("response", String.valueOf(response.getJSONObject(i)));
                         Marks_model marks_model = new Marks_model(
-                                marksObject.getString("topic"),
+                                marksObject.getString("test_name"),
                                 marksObject.getString("date"),
                                 marksObject.getInt("marks"),
                                 marksObject.getInt("max_marks")
@@ -110,4 +121,27 @@ public class tutor_view_tests extends AppCompatActivity {
 //            marks_list.add(new Marks_model("Chemistry","08/07/2019",40,50));
 //        return marks_list;
 //    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.toolbar_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+
+        int id = item.getItemId();
+
+        if(id == R.id.item1){
+            SessionManagement sessionManagement = new SessionManagement(tutor_view_tests.this);
+            sessionManagement.removeSession();
+            Intent intent = new Intent(tutor_view_tests.this, Tutor_Login.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK| Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 }

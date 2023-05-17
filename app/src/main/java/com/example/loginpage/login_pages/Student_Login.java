@@ -32,6 +32,8 @@ import com.example.loginpage.R;
 import com.example.loginpage.Reset_Password;
 import com.example.loginpage.UtilsService.UtilService;
 import com.example.loginpage.main_screen.MainActivity;
+import com.example.loginpage.session_management.SessionManagement;
+import com.example.loginpage.session_management.SessionManagementStudent;
 import com.example.loginpage.student_.student_home_screen;
 import com.example.loginpage.student_.student_set_home_location;
 import com.example.loginpage.tutor_.Tutor_actual_geo_signin;
@@ -55,6 +57,27 @@ public class Student_Login extends AppCompatActivity {
 
     UtilService utilService;
     private String username, password;
+
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        SessionManagementStudent sessionManagement = new SessionManagementStudent(Student_Login.this);
+        String mailSession = sessionManagement.getSESSION_KEY();
+        if(mailSession != null){
+
+            Intent intent = new Intent(Student_Login.this, student_home_screen.class);
+            intent.putExtra("passEmail",mailSession);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK| Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
+        }
+        else{
+//            Toast.makeText(this, "User Already Logged in", Toast.LENGTH_SHORT).show();
+//            String logged_in_email = sessionManagement.getSESSION_KEY();
+
+        }
+
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -127,6 +150,11 @@ public class Student_Login extends AppCompatActivity {
                     if(response.getBoolean("success")){
                         String token = response.getString("token");
                         Toast.makeText(Student_Login.this,token,Toast.LENGTH_SHORT).show();
+
+                        SessionManagementStudent sessionManagement = new SessionManagementStudent(Student_Login.this);
+                        sessionManagement.SaveSession(username);
+//                        sessionManagement.setEmail(username);
+
 //                        getCoordinates(response.getString("email"));
                         String lat = response.getString("lat");
                         String lon = response.getString("lon");
@@ -210,6 +238,7 @@ public class Student_Login extends AppCompatActivity {
             imm.hideSoftInputFromWindow(view.getWindowToken(),0);
         }
     }
+
 
 
 }

@@ -1,12 +1,17 @@
 package com.example.loginpage;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
@@ -27,6 +32,7 @@ import com.android.volley.toolbox.Volley;
 import com.example.loginpage.UtilsService.UtilService;
 import com.example.loginpage.UtilsService.VolleySingleton;
 import com.example.loginpage.login_pages.Tutor_Login;
+import com.example.loginpage.session_management.SessionManagement;
 import com.example.loginpage.tutor_.tutor_home_screen;
 import com.example.loginpage.tutor_.tutor_view_tests;
 
@@ -50,6 +56,11 @@ public class Enter_topics_Tutor extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_enter_topics_tutor);
+
+
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         topics_list=(ListView) findViewById(R.id.topic_list_view);
         enter_topic = (AutoCompleteTextView) findViewById(R.id.enter_topic);
@@ -154,5 +165,28 @@ public class Enter_topics_Tutor extends AppCompatActivity {
             InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.hideSoftInputFromWindow(view.getWindowToken(),0);
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.toolbar_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+
+        int id = item.getItemId();
+
+        if(id == R.id.item1){
+            SessionManagement sessionManagement = new SessionManagement(Enter_topics_Tutor.this);
+            sessionManagement.removeSession();
+            Intent intent = new Intent(Enter_topics_Tutor.this, Tutor_Login.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK| Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

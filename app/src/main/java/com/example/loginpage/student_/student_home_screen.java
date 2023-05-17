@@ -1,12 +1,19 @@
 package com.example.loginpage.student_;
 
+import static com.example.loginpage.R.id.toolbar;
+
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
+import androidx.appcompat.widget.Toolbar;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -25,7 +32,12 @@ import com.example.loginpage.R;
 import com.example.loginpage.UtilsService.UtilService;
 import com.example.loginpage.UtilsService.VolleySingleton;
 import com.example.loginpage.login_pages.Student_Login;
+import com.example.loginpage.login_pages.Tutor_Login;
+import com.example.loginpage.session_management.SessionManagement;
+import com.example.loginpage.session_management.SessionManagementStudent;
 import com.example.loginpage.student_.monitor_test.student_monitor_tests;
+import com.example.loginpage.student_.track_syllabus.student_track_syllabus;
+import com.example.loginpage.tutor_.tutor_home_screen;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -47,8 +59,14 @@ public class student_home_screen extends AppCompatActivity {
         setContentView(R.layout.activity_student_home_screen);
 
 
+
+
         email = getIntent().getStringExtra("passEmail");
         Log.i("email",email+"");
+
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         TextView abt_srtutor = findViewById(R.id.student_abt_srtutor);
         abt_srtutor.setOnClickListener(new View.OnClickListener() {
@@ -63,6 +81,13 @@ public class student_home_screen extends AppCompatActivity {
             }
         });
 
+        findViewById(R.id.track_syllabus).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(student_home_screen.this, student_track_syllabus.class);
+                startActivity(intent);
+            }
+        });
         findViewById(R.id.monitor_tests).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -142,5 +167,28 @@ public class student_home_screen extends AppCompatActivity {
             }
 
         });
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.toolbar_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+
+        int id = item.getItemId();
+
+        if(id == R.id.item1){
+            SessionManagementStudent sessionManagement = new SessionManagementStudent(student_home_screen.this);
+            sessionManagement.removeSession();
+            Intent intent = new Intent(student_home_screen.this, Student_Login.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK| Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

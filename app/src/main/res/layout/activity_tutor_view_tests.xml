@@ -6,9 +6,11 @@
     android:layout_height="match_parent"
     tools:context=".tutor_.tutor_view_tests"
     android:orientation="vertical"
-    android:layout_margin="20dp">
+    >
 
-
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar"></include>
     <TableLayout
         android:layout_margin="10dp"
         android:layout_width="match_parent"

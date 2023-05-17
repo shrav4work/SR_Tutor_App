@@ -58,6 +58,7 @@ public class Tutor_Login extends AppCompatActivity {
         if(mailSession != null){
 
             Intent intent = new Intent(Tutor_Login.this, Tutor_actual_geo_signin.class);
+            intent.putExtra("passEmail",mailSession);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK| Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
         }

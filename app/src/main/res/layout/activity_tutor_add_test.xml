@@ -7,6 +7,10 @@
     tools:context=".tutor_.tutor_add_test"
     android:orientation="vertical">
 
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar"></include>
+
     <EditText
         android:id="@+id/topic_name"
         android:layout_width="match_parent"
@@ -31,7 +35,6 @@
         android:layout_marginRight="50dp"
         android:ems="10"
         android:hint="Date"
-        android:inputType="date"
         android:textAlignment="center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.184"

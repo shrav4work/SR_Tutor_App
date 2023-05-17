@@ -7,6 +7,9 @@
     android:layout_height="match_parent"
     tools:context=".student_.payment_details.student_payment_details">
 
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar"></include>
     <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

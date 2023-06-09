@@ -6,26 +6,33 @@ import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.app.ActivityCompat;
 
 import android.Manifest;
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import com.android.volley.ClientError;
+import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
+import com.android.volley.ServerError;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.HttpHeaderParser;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.loginpage.Enter_topics_Tutor;
 import com.example.loginpage.R;
 import com.example.loginpage.UtilsService.UtilService;
+import com.example.loginpage.UtilsService.VolleySingleton;
+import com.example.loginpage.login_pages.Tutor_Login;
+import com.example.loginpage.session_management.SessionManagement;
+import com.example.loginpage.session_management.SessionManagementStudentInTutor;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -40,6 +47,7 @@ import com.google.android.gms.tasks.Task;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 
 public class Tutor_actual_geo_signin extends AppCompatActivity {
@@ -53,6 +61,13 @@ public class Tutor_actual_geo_signin extends AppCompatActivity {
     UtilService utilService;
     private static final int FINE_LOCATION_REQUEST_CODE = 1000;
     private FusedLocationProviderClient locationClient;
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        SessionManagementStudentInTutor sessionManagementStudentInTutor = new SessionManagementStudentInTutor(Tutor_actual_geo_signin.this);
+        sessionManagementStudentInTutor.removeSession();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,19 +97,88 @@ public class Tutor_actual_geo_signin extends AppCompatActivity {
             public void onClick(View v) {
                 student_id = (EditText) findViewById(R.id.enter_stu_id_geosignin);
                 stu_id = student_id.getText().toString();
+
                 Log.i("Get_Student_ID",stu_id);
-                if(calcDistance<20000){
-                    Intent intent = new Intent(Tutor_actual_geo_signin.this,tutor_home_screen.class);
-                    intent.putExtra("enter_stu_id_geosignin",stu_id);
-                    startActivity(intent);
-                }
-                else{
-                    Log.i("Location Fault","Location Not matched");
-                    Toast.makeText(Tutor_actual_geo_signin.this,"Invalid Location",Toast.LENGTH_SHORT).show();
+                if(validate(v)){
+                    checkStudent(new Callback<Boolean>() {
+                        @Override
+                        public void onResult(Boolean result) {
+                            if(result){
+                                SessionManagementStudentInTutor sessionManagement = new SessionManagementStudentInTutor(Tutor_actual_geo_signin.this);
+                                sessionManagement.SaveSession(stu_id);
+                                if(calcDistance<20000){
+                                    Intent intent = new Intent(Tutor_actual_geo_signin.this,tutor_home_screen.class);
+                                    intent.putExtra("enter_stu_id_geosignin",stu_id);
+                                    startActivity(intent);
+                                }
+                                else{
+                                    Log.i("Location Fault","Location Not matched");
+                                    Toast.makeText(Tutor_actual_geo_signin.this,"Invalid Location",Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        }
+                    });
                 }
             }
         }));
     }
+
+    interface Callback<T> {
+        void onResult(T result);
+    }
+
+    private boolean validate(View view) {
+        boolean isValid = false;
+        if(!TextUtils.isEmpty(stu_id)){
+                isValid = true;
+        }
+        else{
+            utilService.showSnackBar(view,"Please enter Student USN");
+        }
+        return isValid;
+    }
+
+    private void checkStudent(final Callback<Boolean> callback) {
+        utilService = new UtilService();
+        ip =utilService.getIp();
+
+        final String url = "http://"+ip+":3000/api/validate_student";
+        HashMap<String,String> params =new HashMap<>();
+        params.put("student_id",stu_id);
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, new JSONObject(params), new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                try {
+                    boolean success = response.getBoolean("success");
+                    if(!success){
+                        Toast.makeText(Tutor_actual_geo_signin.this, "Student Not Found", Toast.LENGTH_SHORT).show();
+                    }
+                    callback.onResult(success);
+                } catch (JSONException jsonException) {
+                    throw new RuntimeException(jsonException);
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                NetworkResponse response = error.networkResponse;
+                if(error instanceof ServerError && response!= null){
+                    try{
+                        String res = new String(response.data, HttpHeaderParser.parseCharset(response.headers,"utf-8"));
+                        JSONObject obj = new JSONObject(res);
+                        Toast.makeText(Tutor_actual_geo_signin.this, obj.getString("msg"),Toast.LENGTH_SHORT).show();
+                    }catch(JSONException | UnsupportedEncodingException je){
+                        je.printStackTrace();
+                    }
+                }
+            }
+        });
+        VolleySingleton.getInstance(Tutor_actual_geo_signin.this).addToRequestQueue(jsonObjectRequest);
+        callback.onResult(false);
+
+    }
+
     public void getLocationPermission(){
         ActivityCompat.requestPermissions(this,new String[] {android.Manifest.permission.ACCESS_FINE_LOCATION}, FINE_LOCATION_REQUEST_CODE);
     }

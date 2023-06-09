@@ -1,6 +1,8 @@
 package com.example.loginpage.tutor_;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
@@ -9,6 +11,9 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -28,7 +33,10 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.example.loginpage.R;
 import com.example.loginpage.UtilsService.UtilService;
 import com.example.loginpage.UtilsService.VolleySingleton;
+import com.example.loginpage.login_pages.Tutor_Login;
 import com.example.loginpage.main_screen.MainActivity;
+import com.example.loginpage.session_management.SessionManagement;
+import com.example.loginpage.session_management.SessionManagementStudentInTutor;
 import com.example.loginpage.student_.student_home_screen;
 import com.example.loginpage.student_.student_set_home_location;
 
@@ -57,6 +65,10 @@ public class tutor_add_test extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tutor_add_test);
+
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 
         //Select Date
@@ -120,7 +132,10 @@ public class tutor_add_test extends AppCompatActivity {
     private void submitTest() {
         utilService = new UtilService();
         ip =utilService.getIp();
-        final String url = "http://"+ip+":3000/api/test_details_update";
+        SessionManagementStudentInTutor sessionManagementStudentInTutor = new SessionManagementStudentInTutor(tutor_add_test.this);
+        String id = sessionManagementStudentInTutor.getSESSION_KEY();
+        Log.i("Student iD",id);
+        final String url = "http://"+ip+":3000/api/test_details_update/"+id;
 
         HashMap<String,String> params =new HashMap<>();
         params.put("subject",subject);
@@ -207,6 +222,31 @@ public class tutor_add_test extends AppCompatActivity {
             utilService.showSnackBar(view,"Please enter your test topic");
         }
         return isValid;
+    }
+
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.toolbar_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+
+        int id = item.getItemId();
+
+        if(id == R.id.item1){
+            SessionManagement sessionManagement = new SessionManagement(tutor_add_test.this);
+            sessionManagement.removeSession();
+            Intent intent = new Intent(tutor_add_test.this, Tutor_Login.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK| Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
 

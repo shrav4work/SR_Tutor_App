@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.Toast;
 
 import com.example.loginpage.R;
 import com.example.loginpage.login_pages.Tutor_Login;
@@ -46,29 +47,32 @@ public class tutor_about_tests extends AppCompatActivity {
         });
 
 
-        findViewById(R.id.enter_no_of_tests_btn).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent =  new Intent(tutor_about_tests.this, tutor_add_number_of_tests.class);
-                startActivity(intent);
-            }
-        });
+
 
         findViewById(R.id.enter_tests_abouttest_btn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent =  new Intent(tutor_about_tests.this, tutor_add_test.class);
-                intent.putExtra("subjectSelected",itemSelected);
-                startActivity(intent);
+                if(itemSelected==null){
+                    Toast.makeText(tutor_about_tests.this, "Please Select the subject", Toast.LENGTH_SHORT).show();
+                }else{
+                    Intent intent =  new Intent(tutor_about_tests.this, tutor_add_test.class);
+                    intent.putExtra("subjectSelected",itemSelected);
+                    startActivity(intent);
+                }
+
             }
         });
 
         findViewById(R.id.view_tests).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent =  new Intent(tutor_about_tests.this, tutor_view_tests.class);
-                intent.putExtra("subjectSelected",itemSelected);
-                startActivity(intent);
+                if(itemSelected==null){
+                    Toast.makeText(tutor_about_tests.this, "Please Select the subject", Toast.LENGTH_SHORT).show();
+                }else {
+                    Intent intent = new Intent(tutor_about_tests.this, tutor_view_tests.class);
+                    intent.putExtra("subjectSelected", itemSelected);
+                    startActivity(intent);
+                }
             }
         });
     }

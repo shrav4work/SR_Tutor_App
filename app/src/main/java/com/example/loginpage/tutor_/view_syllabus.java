@@ -10,7 +10,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -18,20 +17,26 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.NetworkError;
 import com.android.volley.NetworkResponse;
+import com.android.volley.NoConnectionError;
+import com.android.volley.ParseError;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.ServerError;
+import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.HttpHeaderParser;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
 import com.example.loginpage.R;
-import com.example.loginpage.Set_Syllabus_;
 import com.example.loginpage.UtilsService.UtilService;
 import com.example.loginpage.UtilsService.VolleySingleton;
 import com.example.loginpage.login_pages.Tutor_Login;
 import com.example.loginpage.session_management.SessionManagement;
+import com.example.loginpage.session_management.SessionManagementStudentInTutor;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -50,12 +55,18 @@ public class view_syllabus extends AppCompatActivity {
     private MyAdapter mAdapter;
 
     String ip;
+
+
     UtilService utilService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_syllabus);
+
+        SessionManagementStudentInTutor sessionManagementStudentInTutor = new SessionManagementStudentInTutor(view_syllabus.this);
+        String stu_id = sessionManagementStudentInTutor.getSESSION_KEY();
+        String subject = getIntent().getStringExtra("subject");
 
 
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -68,7 +79,7 @@ public class view_syllabus extends AppCompatActivity {
         mRecyclerView = findViewById(R.id.recyclerview);
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        setData();
+        setData(stu_id,subject);
 
 
 //        mList.add(new DataItem("This is Task 1"+"   4hrs   ",false));
@@ -85,7 +96,7 @@ public class view_syllabus extends AppCompatActivity {
             public void onItemCheckedChanged(int position, boolean isChecked) {
                 mList.get(position).setChecked(isChecked);
                 Log.i("isChecked", String.valueOf(isChecked));
-                updateData(position, isChecked);
+                updateData(position, isChecked,subject, stu_id);
                 }
         });
         mRecyclerView.setAdapter(mAdapter);
@@ -98,11 +109,11 @@ public class view_syllabus extends AppCompatActivity {
         mAdapter.notifyDataSetChanged();
     }
 
-    private void updateData(int position, boolean isChecked) {
+    private void updateData(int position, boolean isChecked, String subject, String stu_id) {
         utilService = new UtilService();
         ip = utilService.getIp();
 
-        final String url = "http://"+ip+":3000/api/update_syllabus/01fe19bcs060/Science";
+        final String url = "http://"+ip+":3000/api/update_syllabus/"+stu_id+"/"+subject;
 
         Map<String,String> params = new HashMap<>();
         params.put("subject_topic",mList.get(position).getText());
@@ -145,11 +156,11 @@ public class view_syllabus extends AppCompatActivity {
 
     }
 
-    private void setData() {
+    private void setData(String stu_id, String subject) {
         utilService = new UtilService();
         ip=utilService.getIp();
 
-        final String url = "http://"+ip+":3000/api/fetch_syllabus/01fe19bcs060/Science";
+        final String url = "http://"+ip+":3000/api/fetch_syllabus/"+stu_id+"/"+subject;
 
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
             @Override
@@ -195,8 +206,9 @@ public class view_syllabus extends AppCompatActivity {
                 @Override
                 public void onClick(DialogInterface dialog, int which){
                     int position = viewHolder.getAdapterPosition();
-                    mList.remove(position);
-                    mAdapter.notifyItemRemoved(position);
+                    String id = mList.get(position).getText();
+                    deleteData(position, id);
+
                 }
             });
             builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -208,7 +220,55 @@ public class view_syllabus extends AppCompatActivity {
             builder.show();
         }
 
+
+
     };
+    private void deleteData(int position, String id) {
+        utilService = new UtilService();
+        ip = utilService.getIp();
+
+
+        SessionManagementStudentInTutor sessionManagementStudentInTutor = new SessionManagementStudentInTutor(view_syllabus.this);
+        String stu_id = sessionManagementStudentInTutor.getSESSION_KEY();
+        String subject = getIntent().getStringExtra("subject");
+
+        String url = "http://" + ip + ":3000/api/delete_syllabus/"+stu_id+"/"+subject+"/"+id;
+
+        StringRequest stringRequest = new StringRequest(Request.Method.DELETE, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        mList.remove(position);
+                        mAdapter.notifyItemRemoved(position);
+                        Toast.makeText(view_syllabus.this, "Syllabus item deleted successfully", Toast.LENGTH_SHORT).show();
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        // Handle error
+
+                        Toast.makeText(view_syllabus.this, "Failed to delete syllabus item", Toast.LENGTH_SHORT).show();
+
+                        String errorMessage;
+                        if (error instanceof NetworkError) {
+                            errorMessage = "Network error occurred";
+                        } else if (error instanceof ServerError) {
+                            errorMessage = "Server error occurred";
+                        } else if (error instanceof AuthFailureError) {
+                            errorMessage = "Authentication failure error";
+                        } else if (error instanceof ParseError) {
+                            errorMessage = "Parse error occurred";
+                        } else if (error instanceof NoConnectionError) {
+                            errorMessage = "No connection error";
+                        } else if (error instanceof TimeoutError) {
+                            errorMessage = "Request timeout error";
+                        }
+                    }
+                });
+
+        VolleySingleton.getInstance(view_syllabus.this).addToRequestQueue(stringRequest);
+    }
 
 
     public boolean onCreateOptionsMenu(Menu menu) {

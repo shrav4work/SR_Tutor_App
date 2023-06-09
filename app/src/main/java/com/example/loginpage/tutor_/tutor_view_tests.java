@@ -22,6 +22,7 @@ import com.example.loginpage.UtilsService.UtilService;
 import com.example.loginpage.UtilsService.VolleySingleton;
 import com.example.loginpage.login_pages.Tutor_Login;
 import com.example.loginpage.session_management.SessionManagement;
+import com.example.loginpage.session_management.SessionManagementStudentInTutor;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -37,6 +38,7 @@ public class tutor_view_tests extends AppCompatActivity {
     RecyclerView recycler_view;
     marks_adapter marksAdapter;
     UtilService utilService;
+    String subject;
     String ip;
 
     @Override
@@ -64,7 +66,11 @@ public class tutor_view_tests extends AppCompatActivity {
         utilService = new UtilService();
         ip =utilService.getIp();
 
-        final String url = "http://"+ip+":3000/api/test_details/01fe19bcs060/Science";
+        SessionManagementStudentInTutor sessionManagementStudentInTutor = new SessionManagementStudentInTutor(tutor_view_tests.this);
+        String id = sessionManagementStudentInTutor.getSESSION_KEY();
+
+        subject = getIntent().getStringExtra("subjectSelected");
+        final String url = "http://"+ip+":3000/api/test_details/"+id+"/"+subject;
 
 //        RequestQueue queue = Volley.newRequestQueue(this);
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {

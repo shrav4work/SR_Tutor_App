@@ -55,13 +55,13 @@
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/card_list_of_topics"
         android:layout_width="324dp"
-        android:layout_height="365dp"
+        android:layout_height="350dp"
         android:layout_below="@id/add_topic"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginStart="43dp"
-        android:layout_marginTop="22dp"
-        android:layout_marginEnd="44dp"
+        android:layout_marginStart="45dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="42dp"
         android:background="@drawable/rounded_corner_border"
         app:cardCornerRadius="15dp"
         app:cardElevation="20dp"
@@ -76,17 +76,20 @@
 
     </com.google.android.material.card.MaterialCardView>
 
+
     <com.google.android.material.button.MaterialButton
         android:id="@+id/enter_topic_fin_btn"
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:layout_below="@+id/card_list_of_topics"
-        android:layout_marginStart="60dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="60dp"
+        android:layout_marginLeft="32dp"
+        android:layout_marginTop="14dp"
+        android:layout_marginRight="32dp"
         android:layout_marginBottom="10dp"
         android:backgroundTint="@color/primary"
         android:text="Finish"
-        app:cornerRadius="15dp" />
+        app:cornerRadius="15dp"
+        tools:ignore="NotSibling" />
+
 
 </RelativeLayout>

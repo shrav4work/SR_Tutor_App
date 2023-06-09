@@ -33,6 +33,7 @@ import com.example.loginpage.UtilsService.UtilService;
 import com.example.loginpage.UtilsService.VolleySingleton;
 import com.example.loginpage.login_pages.Tutor_Login;
 import com.example.loginpage.session_management.SessionManagement;
+import com.example.loginpage.session_management.SessionManagementStudentInTutor;
 import com.example.loginpage.tutor_.tutor_home_screen;
 import com.example.loginpage.tutor_.tutor_view_tests;
 
@@ -52,12 +53,17 @@ public class Enter_topics_Tutor extends AppCompatActivity {
     UtilService utilService;
     String ip;
 
+    String subject;
+
+    String student_id;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_enter_topics_tutor);
 
 
+//        student_id = getIntent().getStringExtra("student_id");
+//        Log.i("Student id",student_id);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -97,6 +103,7 @@ public class Enter_topics_Tutor extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 submitToBackend(topiclist);
+                Toast.makeText(Enter_topics_Tutor.this, "Syllabus added successfully", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(Enter_topics_Tutor.this, tutor_home_screen.class);
                 startActivity(intent);
             }
@@ -111,7 +118,12 @@ public class Enter_topics_Tutor extends AppCompatActivity {
     private void submitToBackend(ArrayList<String> topiclist) {
         utilService = new UtilService();
         ip =utilService.getIp();
-        final String url = "http://"+ip+":3000/api/test_api";
+        SessionManagementStudentInTutor sessionManagementStudentInTutor = new SessionManagementStudentInTutor(Enter_topics_Tutor.this);
+        String id = sessionManagementStudentInTutor.getSESSION_KEY();
+
+        subject = getIntent().getStringExtra("subject");
+
+        final String url = "http://"+ip+":3000/api/test_api/"+id+"/"+subject;
 
         JSONObject requestBody = new JSONObject();
 
@@ -188,5 +200,13 @@ public class Enter_topics_Tutor extends AppCompatActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent();
+        intent.putExtra("student_id", student_id);
+        setResult(RESULT_OK, intent);
+        super.onBackPressed();
     }
 }

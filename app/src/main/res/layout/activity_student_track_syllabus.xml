@@ -10,39 +10,14 @@
         android:id="@+id/toolbar"
         layout="@layout/toolbar"></include>
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/student_id_text"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/toolbar"
 
-        android:layout_marginHorizontal="60dp"
-        android:layout_marginTop="41dp"
-        app:boxStrokeColor="@color/blue">
-
-        <AutoCompleteTextView
-            android:id="@+id/student_list_text"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:background="@null"
-            android:fontFamily="@font/trebuc"
-            android:gravity="center_horizontal"
-            android:paddingVertical="15dp"
-            android:textSize="18sp"
-            android:textStyle="bold">
-
-        </AutoCompleteTextView>
-
-    </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/select_subject_student_details"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/student_id_text"
+        android:layout_below="@+id/toolbar"
         android:layout_marginHorizontal="60dp"
         android:layout_marginTop="32dp"
         android:layout_marginBottom="20dp">

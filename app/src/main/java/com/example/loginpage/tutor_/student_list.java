@@ -32,6 +32,7 @@ import com.example.loginpage.UtilsService.UtilService;
 import com.example.loginpage.UtilsService.VolleySingleton;
 import com.example.loginpage.login_pages.Tutor_Login;
 import com.example.loginpage.session_management.SessionManagement;
+import com.example.loginpage.session_management.SessionManagementStudentInTutor;
 import com.google.android.material.textfield.TextInputLayout;
 
 
@@ -47,6 +48,7 @@ public class student_list extends AppCompatActivity {
     ArrayAdapter<String> studentListAdapter;
     UtilService utilService;
     String ip;
+    String stu_id;
 
     String[] item = {"English","Maths","Kannada","Science","Social Science","Maths"};
     AutoCompleteTextView autoCompleteTextView;
@@ -61,6 +63,8 @@ public class student_list extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_student_list);
 
+        SessionManagementStudentInTutor sessionManagementStudentInTutor = new SessionManagementStudentInTutor(student_list.this);
+        stu_id = sessionManagementStudentInTutor.getSESSION_KEY();
 
 
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -76,7 +80,7 @@ public class student_list extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 itemSelected = parent.getItemAtPosition(position).toString();
-                setData(student_list_view,itemSelected);
+                setData(student_list_view,itemSelected,stu_id);
             }
         });
 
@@ -107,11 +111,11 @@ public class student_list extends AppCompatActivity {
 
     }
 
-    private void setData(ListView student_list_view, String itemSelected) {
+    private void setData(ListView student_list_view, String itemSelected, String stu_id) {
         utilService = new UtilService();
         ip =utilService.getIp();
 
-        final String url = "http://"+ip+":3000/api/student_details/01fe19bcs060/"+itemSelected;
+        final String url = "http://"+ip+":3000/api/student_details/"+stu_id+"/"+itemSelected;
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override

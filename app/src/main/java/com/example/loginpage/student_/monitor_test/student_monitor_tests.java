@@ -85,8 +85,10 @@ public class student_monitor_tests extends AppCompatActivity {
     public void setData() {
         utilService = new UtilService();
         ip =utilService.getIp();
+        SessionManagementStudent sessionManagementStudent = new SessionManagementStudent(student_monitor_tests.this);
+        String fetchemail = sessionManagementStudent.getSESSION_KEY();
 
-        final String url = "http://"+ip+":3000/api/test_details/01fe19bcs060/"+itemSelected;
+        final String url = "http://"+ip+":3000/api/test_details_student/"+fetchemail+"/"+itemSelected;
 
 //        RequestQueue queue = Volley.newRequestQueue(this);
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {

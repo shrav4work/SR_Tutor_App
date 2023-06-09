@@ -34,6 +34,7 @@ import com.example.loginpage.login_pages.Student_Login;
 import com.example.loginpage.login_pages.Tutor_Login;
 import com.example.loginpage.session_management.SessionManagement;
 import com.example.loginpage.session_management.SessionManagementStudent;
+import com.example.loginpage.student_.monitor_test.student_monitor_tests;
 import com.example.loginpage.tutor_.student_list;
 import com.google.android.material.textfield.TextInputLayout;
 
@@ -81,16 +82,16 @@ public class student_track_syllabus extends AppCompatActivity {
             }
         });
 
-        studentIdInput = (TextInputLayout)findViewById(R.id.student_id_text);
-        studentIdAuto = (AutoCompleteTextView)findViewById(R.id.student_list_text);
-        studentIdInput.setHint("Enter Student ID");
-        studentIdList = new ArrayList<>();
-        studentIdList.add("01fe19bcs144");
-        studentIdList.add("02fe19bcs120");
-        studentIdList.add("01fe19bme013");
-        studentListAdapter = new ArrayAdapter<>(getApplicationContext(), androidx.appcompat.R.layout.support_simple_spinner_dropdown_item,studentIdList);
-        studentIdAuto.setAdapter(studentListAdapter);
-        studentIdAuto.setThreshold(2);
+//        studentIdInput = (TextInputLayout)findViewById(R.id.student_id_text);
+//        studentIdAuto = (AutoCompleteTextView)findViewById(R.id.student_list_text);
+//        studentIdInput.setHint("Enter Student ID");
+//        studentIdList = new ArrayList<>();
+//        studentIdList.add("01fe19bcs144");
+//        studentIdList.add("02fe19bcs120");
+//        studentIdList.add("01fe19bme013");
+//        studentListAdapter = new ArrayAdapter<>(getApplicationContext(), androidx.appcompat.R.layout.support_simple_spinner_dropdown_item,studentIdList);
+//        studentIdAuto.setAdapter(studentListAdapter);
+//        studentIdAuto.setThreshold(2);
     }
 
 
@@ -98,7 +99,10 @@ public class student_track_syllabus extends AppCompatActivity {
         utilService = new UtilService();
         ip =utilService.getIp();
 
-        final String url = "http://"+ip+":3000/api/student_details/01fe19bcs060/"+itemSelected;
+        SessionManagementStudent sessionManagementStudent = new SessionManagementStudent(student_track_syllabus.this);
+        String fetchemail = sessionManagementStudent.getSESSION_KEY();
+
+        final String url = "http://"+ip+":3000/api/student_details_student/"+fetchemail+"/"+itemSelected;
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override

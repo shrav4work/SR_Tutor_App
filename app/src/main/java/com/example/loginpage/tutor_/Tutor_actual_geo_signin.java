@@ -106,9 +106,9 @@ public class Tutor_actual_geo_signin extends AppCompatActivity {
                             if(result){
                                 SessionManagementStudentInTutor sessionManagement = new SessionManagementStudentInTutor(Tutor_actual_geo_signin.this);
                                 sessionManagement.SaveSession(stu_id);
-                                if(calcDistance<20000){
+                                if(calcDistance<200000){
                                     Intent intent = new Intent(Tutor_actual_geo_signin.this,tutor_home_screen.class);
-                                    intent.putExtra("enter_stu_id_geosignin",stu_id);
+                                    intent.putExtra("enter_stu_id_geosignin",stu_id.trim());
                                     startActivity(intent);
                                 }
                                 else{
@@ -144,7 +144,7 @@ public class Tutor_actual_geo_signin extends AppCompatActivity {
 
         final String url = "http://"+ip+":3000/api/validate_student";
         HashMap<String,String> params =new HashMap<>();
-        params.put("student_id",stu_id);
+        params.put("student_id",stu_id.trim());
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, new JSONObject(params), new Response.Listener<JSONObject>() {
             @Override

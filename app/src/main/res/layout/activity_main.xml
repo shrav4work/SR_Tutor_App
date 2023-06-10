@@ -12,14 +12,15 @@
         android:layout_height="450dp"
         android:layout_alignParentTop="true"
         android:background="@drawable/gradientbgcurve" />
+
     <ImageView
         android:id="@+id/home"
-        android:layout_width="115dp"
-        android:layout_height="107dp"
+        android:layout_width="107dp"
+        android:layout_height="113dp"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="64dp"
         android:layout_centerHorizontal="true"
-        app:srcCompat="@drawable/home" />
+        android:layout_marginTop="64dp"
+        app:srcCompat="@drawable/sr_tutor_circle" />
 
 
     <RelativeLayout

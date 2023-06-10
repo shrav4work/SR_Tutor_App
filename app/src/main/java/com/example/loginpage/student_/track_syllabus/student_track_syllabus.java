@@ -102,7 +102,8 @@ public class student_track_syllabus extends AppCompatActivity {
         SessionManagementStudent sessionManagementStudent = new SessionManagementStudent(student_track_syllabus.this);
         String fetchemail = sessionManagementStudent.getSESSION_KEY();
 
-        final String url = "http://"+ip+":3000/api/student_details_student/"+fetchemail+"/"+itemSelected;
+        Log.i("Email",fetchemail);
+        final String url = "http://"+ip+":3000/api/student_details_student/"+fetchemail.trim()+"/"+itemSelected;
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override

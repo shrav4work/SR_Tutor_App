@@ -88,17 +88,17 @@ public class Student_Login extends AppCompatActivity {
         TextView abt_srtutor = findViewById(R.id.abt_srtutor_std_login);
         student_username = findViewById(R.id.student_user);
         student_password = findViewById(R.id.student_pass);
-        forgotPasswordStudent=findViewById(R.id.forgot_password_student);
+//        forgotPasswordStudent=findViewById(R.id.forgot_password_student);
         utilService = new UtilService();
         ip =utilService.getIp();
         Log.i("IP",ip);
 
-        forgotPasswordStudent.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(Student_Login.this, Reset_Password.class));
-            }
-        });
+//        forgotPasswordStudent.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                startActivity(new Intent(Student_Login.this, Reset_Password.class));
+//            }
+//        });
 
 
 
@@ -149,7 +149,7 @@ public class Student_Login extends AppCompatActivity {
                 try {
                     if(response.getBoolean("success")){
                         String token = response.getString("token");
-                        Toast.makeText(Student_Login.this,token,Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(Student_Login.this,token,Toast.LENGTH_SHORT).show();
 
                         SessionManagementStudent sessionManagement = new SessionManagementStudent(Student_Login.this);
                         sessionManagement.SaveSession(username);

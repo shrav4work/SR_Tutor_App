@@ -42,10 +42,12 @@
             android:exported="false" />
         <activity
             android:name=".student_.payment_details.student_payment_details"
-            android:exported="false" />
+            android:exported="false"
+            android:parentActivityName=".student_.student_home_screen"/>
         <activity
             android:name=".student_.monitor_test.student_monitor_tests"
-            android:exported="false" />
+            android:exported="false"
+            android:parentActivityName=".student_.student_home_screen"/>
         <activity
             android:name=".tutor_.tutor_about_tests"
             android:exported="false"

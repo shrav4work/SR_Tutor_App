@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">Login Page</string>
-    <string name="abt_sr">Here you can find more About SR Tutorials</string>
+    <string name="abt_sr">
+      <![CDATA[ We are excited to provide you with quality tutoring services that cater to your unique needs.Our team of experienced tutors is dedicated to helping students of all ages and levels achieve academic success.Whether you need help with a specific subject, test preparation, or study skills, we have a tutor who can work with you one-on-one to help you achieve your goals. We believe that personalized instruction is the key to unlocking student&apos; full potential, and we strive to provide a supportive and nurturing learning environment in the comfort of your own home.Thank you for considering our home tutor services, and we look forward to helping you succeed!]]>
+        </string>
 
     <string-array name="subjects">
         <item>English</item>
@@ -11,4 +13,6 @@
         <item>Hindi</item>
     </string-array>
     <string name="title_activity_tutor_actual_geo_signin">tutor_actual_geo_signin</string>
+
+
 </resources>
